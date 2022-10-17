@@ -11,6 +11,7 @@ public class DefendTheFort {
 
     public static void main(String[] args) {
         int e;
+        System.out.println("HolaMundo");
         Tablero t = new Tablero();
         t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         t.setResizable(false);
