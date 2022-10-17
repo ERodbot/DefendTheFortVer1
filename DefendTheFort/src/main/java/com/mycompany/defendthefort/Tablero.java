@@ -4,7 +4,7 @@ import javax.swing.JButton;
 
 public final class Tablero extends javax.swing.JFrame {
 
-    private final JButton[][] matriz = new JButton[25][25];
+    private final Tile[][] matriz = new Tile[25][25];
     private final int ancho = 35;
     private final int alto = 35;
     
@@ -111,11 +111,10 @@ public final class Tablero extends javax.swing.JFrame {
     public void generarBotones(){
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
-                matriz[i][j] = new JButton();
-                pnlPrincipal.add(matriz[i][j]);
-                matriz[i][j].setOpaque(rootPaneCheckingEnabled);
-                matriz[i][j].setSize(ancho, alto);
-                matriz[i][j].setLocation(i*ancho, alto*j);
+                matriz[i][j] = new Tile();
+                pnlPrincipal.add(matriz[i][j].button);
+                matriz[i][j].button.setOpaque(rootPaneCheckingEnabled);
+                matriz[i][j].button.setLocation(i*ancho, alto*j);
             }            
         }
     }
