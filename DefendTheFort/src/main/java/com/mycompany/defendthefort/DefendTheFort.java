@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 public class DefendTheFort {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
         Tablero t = new Tablero();
         t.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         t.setResizable(false);
