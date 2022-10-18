@@ -29,7 +29,7 @@ Sebas -> buscar una forma de generar zombies aleatoriamente en los bordes de la 
             a. Si muere, desaparece del grid, y termina el thread y el ciclo
             b. Si no muere, sigue el ciclo de movimiento
            
- Emanuel -> determinar si la funcion atacar debe estar programada para la clase personaje, hacer el estudio de casos para los ataques de los diferentes tipos de defensas/zombies. Se podria crear un override para los que atacan multiple y para los que vuelan. La idea principal es que por cada segundo se haga un escaneo de las casillas en un rango determinado(posible valor de entrada de la funcion atacar) y que de encontrar un objetivo se retorne esa casilla. Luego aplicar la funcion atacar que reste el poder de ataque a la vida.
+ Emanuel -> determinar si la funcion atacar debe estar programada para la clase personaje, hacer el estudio de casos para los ataques de los diferentes tipos de defensas/zombies. Se podria crear un override para los que atacan multiple y para los que vuelan. La idea principal es que por cada segundo se haga un escaneo de las casillas en un rango determinado(posible valor de entrada de la funcion determineObjective) y que de encontrar un objetivo se retorne esa casilla. Luego aplicar la funcion atacar que reste el poder de ataque a la vida.
  
  determineObjective()
          1. Ciclo de accion:
@@ -45,6 +45,20 @@ attack(Tile tileObjective)
                   
 Duda: tenemos que determinar de que manera logear los ataques recibidos y propiciados.
                   
+
+registro:
+    Crear la clase registro, que contenga:
+            -Un registro del dano total
+            -Un registro
+
+
+crear clase 
+
+
+
+
++El atacar es muy distinto tipo de zombie, deberia ser un abstract del entity, y hacer obverride a cada uno 
++El mover, if(determineObjective!=null) llame a mover();
 
 **********************************************************************************************************************************************************************
 
