@@ -12,7 +12,7 @@ import javax.swing.JButton;
  */
 public class Tile {
     JButton button;
-    Character personaje;
+    Personaje personaje;
     private final int ancho = 35;
     private final int alto = 35;
     
