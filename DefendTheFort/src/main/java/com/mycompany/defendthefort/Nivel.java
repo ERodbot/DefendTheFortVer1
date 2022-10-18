@@ -4,10 +4,9 @@
  */
 package com.mycompany.defendthefort;
 
-/**
- *
- * @author em000
- */
-public class Impact {
-    
+import java.util.ArrayList;
+
+public class Nivel {
+    public final ArrayList<Personaje> zombies = new ArrayList();
+    public int level;
 }

@@ -1,12 +1,13 @@
 package com.mycompany.defendthefort;
 
-public abstract class Personaje {
+public class Personaje {
     public String nombre;
     public int vida;
     public int cantidadGolpes;
     public int nivel;
     public int campos;
     public int nivelAparicion;   
+    Tablero grid;
     
     public Personaje(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion){
         this.nombre = nombre;
@@ -18,7 +19,14 @@ public abstract class Personaje {
     
     }
     
-    public abstract void atacar();
-    public abstract void morir();
+    public void atacar(){
+        
+    }
+    public void morir(){
+        
+    }
+    public void mover(){
+        
+    }
 }
 

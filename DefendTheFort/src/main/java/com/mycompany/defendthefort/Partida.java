@@ -6,8 +6,8 @@ package com.mycompany.defendthefort;
 
 /**
  *
- * @author em000
+ * @author sebas
  */
-public class aerial {
+public class Partida {
     
 }
