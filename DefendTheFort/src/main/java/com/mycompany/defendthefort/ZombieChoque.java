@@ -27,7 +27,7 @@ public class ZombieChoque extends Entity {
     @Override
     public void atacar() {
         Tile objective = determineObjective();
-        if(objective!=null){
+        if(objective!=null && !this.getFlyingEntities().contains(objective)){
         objective.personaje.substractLife(cantidadGolpes);
         if(objective.personaje.getLife() < 0)
             objective.personaje.morir();
@@ -40,7 +40,7 @@ public class ZombieChoque extends Entity {
             for(int j = getLocationX()-range; j<this.getLocationX()+range; i++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0){
-                    if(matrix[i][j].personaje!=null)
+                    if(matrix[i][j].personaje!=null && this.getDefenses().contains(matrix[i][j].personaje))
                         return matrix[i][j];
                 }           
             }
@@ -49,7 +49,40 @@ public class ZombieChoque extends Entity {
     }
     @Override
     public void mover(){
+        int difx = posx - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
+        int dify = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         
+        if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[++posx][++posy].personaje = this;
+        }
+        if ( difx < 0 && dify > 0){ //diagonal derecha abajo
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[++posx][--posy].personaje = this;
+        }
+        if ( difx > 0 && dify < 0){ //diagonal izquierda arriba
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[--posx][++posy].personaje = this;
+        }
+        if ( difx > 0 && dify > 0){ //diagonal derecha arriba
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[--posx][--posy].personaje = this;
+        }
+        if ( difx == 12 && dify < 0){ //derecha 
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][++posy].personaje = this;
+        }
+        if ( difx == 0 && dify > 0){ //izquierda
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][--posy].personaje = this;
+        }
+        if ( difx < 0 && dify == 0){ //arriba
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[++posx][posy].personaje = this;
+        }
+        if ( difx > 0 && dify == 0){ //abajo
+            grid.matriz[posx][posy].personaje = null;
+            grid.matriz[--posx][posy].personaje = this;
+        }
     }
-    
 }
