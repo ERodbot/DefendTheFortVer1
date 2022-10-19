@@ -12,9 +12,10 @@ import javax.swing.JButton;
  */
 public class Tile {
     JButton button;
-    Personaje personaje;
+    Entity personaje;
     private final int ancho = 35;
     private final int alto = 35;
+    private int posx,posy;
     
     Tile(){
         JButton button = new JButton();
@@ -22,7 +23,8 @@ public class Tile {
         this.button = button;  
     }
     
-    public void setCharacter(){
-        
+     public void setLocation(int x, int y){
+        this.posx = x;
+        this.posy = y;
     }
 }

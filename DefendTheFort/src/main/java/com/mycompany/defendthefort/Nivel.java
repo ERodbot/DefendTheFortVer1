@@ -7,6 +7,16 @@ package com.mycompany.defendthefort;
 import java.util.ArrayList;
 
 public class Nivel {
-    public final ArrayList<Personaje> zombies = new ArrayList();
+    private Entity[] zombies;
+    private Entity[] defenses;
+    private  Entity[] flyingEntities;
+    private Tablero grid;
     public int level;
+
+    public Nivel(int level) {
+        this.level = level;
+        this.zombies = new Entity[20 + (level-1)*level];
+        this.defenses = new Entity[20 + (level-1)*level];
+        this.flyingEntities = new Entity[20 + (level-1)*level];
+    }
 }

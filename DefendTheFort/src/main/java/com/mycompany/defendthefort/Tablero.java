@@ -121,7 +121,18 @@ public final class Tablero extends javax.swing.JFrame {
                     random = rand.nextInt(96);
                     if (random == 10||random == 9||random == 8||random == 7 
                       ||random == 6 ||random == 5||random == 4||random == 3){
-                        matriz[i][j].personaje = new Personaje("Zombie",100,30,30,30,30);
+                        matriz[i][j].personaje = new Entity("Zombie",100,30,30,30,30, this) {
+                            @Override
+                            public void atacar() {
+                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                            }
+
+                            @Override
+                            public Tile determineObjective() {
+                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                            }
+                        };
+                        matriz[i][j].personaje.setLocation(j, i);
                         matriz[i][j].button.setText(".");
                         zombieCapacity=-2;
                         nivel.zombies.add(matriz[i][j].personaje);
@@ -135,11 +146,16 @@ public final class Tablero extends javax.swing.JFrame {
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
                 matriz[i][j] = new Tile();
+                matriz[i][j].setLocation(j,i);
                 pnlPrincipal.add(matriz[i][j].button);
                 matriz[i][j].button.setOpaque(rootPaneCheckingEnabled);
                 matriz[i][j].button.setLocation(i*ancho, alto*j);
             }            
         }
+    }
+    
+    public Tile[][] getMatrix(){
+        return matriz;
     }
     
     public static void main(String args[]) {
