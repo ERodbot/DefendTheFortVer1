@@ -1,11 +1,39 @@
 package com.mycompany.defendthefort;
 
+import java.util.ArrayList;
+
 public abstract class Entity {
     public String nombre;
     public int vida;
     public int cantidadGolpes, nivel, campos, nivelAparicion, posx, posy;   
     public Tablero grid;
-    
+    private  ArrayList<Entity> zombies = new ArrayList();
+    private  ArrayList<Entity> defenses = new ArrayList();
+    private  ArrayList<Entity> flyingEntities = new ArrayList();
+
+    public void setZombies(ArrayList<Entity> zombies) {
+        this.zombies = zombies;
+    }
+
+    public void setDefenses(ArrayList<Entity> defenses) {
+        this.defenses = defenses;
+    }
+
+    public void setFlyingEntities(ArrayList<Entity> flyingEntities) {
+        this.flyingEntities = flyingEntities;
+    }
+
+    public ArrayList<Entity> getZombies() {
+        return zombies;
+    }
+
+    public ArrayList<Entity> getDefenses() {
+        return defenses;
+    }
+
+    public ArrayList<Entity> getFlyingEntities() {
+        return flyingEntities;
+    }
    
     
     public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){

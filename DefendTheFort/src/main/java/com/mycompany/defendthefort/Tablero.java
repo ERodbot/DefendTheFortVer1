@@ -121,7 +121,7 @@ public final class Tablero extends javax.swing.JFrame {
                     random = rand.nextInt(96);
                     if (random == 10||random == 9||random == 8||random == 7 
                       ||random == 6 ||random == 5||random == 4||random == 3){
-                        matriz[i][j].personaje = new Entity("Zombie",100,30,30,30,30, this) {
+                        matriz[i][j].personaje = new ZombieContacto("ZombieContacto",100,30,30,30,30, this) {
                             @Override
                             public void atacar() {
                                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -131,11 +131,19 @@ public final class Tablero extends javax.swing.JFrame {
                             public Tile determineObjective() {
                                 throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
                             }
+
+                            @Override
+                            public void mover() {
+                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                            }
                         };
+                        matriz[i][j].personaje.setDefenses(nivel.getDefenses());
+                        matriz[i][j].personaje.setZombies(nivel.getZombies());
+                        matriz[i][j].personaje.setFlyingEntities(nivel.getFlyingEntities());
                         matriz[i][j].personaje.setLocation(j, i);
                         matriz[i][j].button.setText(".");
                         zombieCapacity=-2;
-                        nivel.zombies.add(matriz[i][j].personaje);
+                        nivel.getZombies().add(matriz[i][j].personaje);
                     }
                 }
             }

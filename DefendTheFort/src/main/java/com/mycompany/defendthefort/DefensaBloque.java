@@ -25,12 +25,12 @@ public class DefensaBloque extends Entity{
 
     @Override
     public void atacar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return;
     }
 
     @Override
     public Tile determineObjective() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       return null;
     }
 
    @Override
