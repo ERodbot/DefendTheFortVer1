@@ -2,20 +2,25 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.defendthefort.Zombies;
-import com.mycompany.defendthefort.Personaje;
+package com.mycompany.defendthefort;
+import com.mycompany.defendthefort.Entity;
+import com.mycompany.defendthefort.Tablero;
+import com.mycompany.defendthefort.Tile;
+
+
 
 /**
  *
- * @author sebas
+ * @author em000
  */
-public class ZombieMedio extends Personaje{
+public class DefensaAereo extends Entity{
     
     
     
     
-    ZombieMedio(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion){
-        super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion);     
+    DefensaAereo(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
+        super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);
+        
     }
 
     @Override
@@ -24,8 +29,11 @@ public class ZombieMedio extends Personaje{
     }
 
     @Override
-    public void morir() {
+    public Tile determineObjective() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+   
     
 }
+
