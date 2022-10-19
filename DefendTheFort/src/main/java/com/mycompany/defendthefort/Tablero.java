@@ -7,13 +7,13 @@ import java.util.Random;
 public final class Tablero extends javax.swing.JFrame {
 
     public Nivel nivel;
-    private final Tile[][] matriz = new Tile[25][25];
+    public final Tile[][] matriz = new Tile[25][25];
     private final int ancho = 35;
     private final int alto = 35;
     public int zombieCapacity = 20;
     
     public Tablero() {
-        nivel = new Nivel();
+        nivel = new Nivel(1);
         initComponents();
         generarBotones();
     }

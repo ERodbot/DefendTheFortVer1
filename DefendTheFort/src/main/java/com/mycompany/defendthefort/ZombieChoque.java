@@ -47,4 +47,9 @@ public class ZombieChoque extends Entity {
         }
         return null;
     }
+    @Override
+    public void mover(){
+        
+    }
+    
 }

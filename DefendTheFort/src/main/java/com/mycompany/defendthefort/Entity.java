@@ -17,6 +17,7 @@ public abstract class Entity {
         this.nivelAparicion = nivelAparicion;
         this.grid = grid;   
     }
+    public abstract void mover();
     public abstract void atacar();
     public abstract Tile determineObjective();
     
@@ -49,9 +50,6 @@ public abstract class Entity {
     }      
             
     public void morir(){
-        
-    }
-    public void mover(){
         
     }
 }
