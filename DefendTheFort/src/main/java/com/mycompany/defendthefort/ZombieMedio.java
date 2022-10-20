@@ -23,7 +23,7 @@ public class ZombieMedio extends Entity{
 
     @Override
     public void morir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       System.out.println("me mori xC");
     }
 
     public void atacar() {

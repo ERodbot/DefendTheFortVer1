@@ -21,12 +21,12 @@ public class ZombieAereo extends Entity{
     }
 
 
-
     @Override
     public void morir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       System.out.println("me mori xC");
     }
 
+    @Override
     public void atacar() {
         Tile objective = determineObjective();
         if(objective!=null && !this.getFlyingEntities().contains(objective)){

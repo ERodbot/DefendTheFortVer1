@@ -21,11 +21,11 @@ public class ZombieChoque extends Entity {
 
     @Override
     public void morir() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       System.out.println("me mori xC");
     }
 
-    @Override
-    public void atacar() {
+    @Override          
+    public void atacar() {           //se determina un objetivo y de cumplirse las condiciones necesarias ataca.
         Tile objective = determineObjective();
         if(objective!=null && !this.getFlyingEntities().contains(objective)){
         objective.personaje.substractLife(cantidadGolpes);
@@ -34,7 +34,7 @@ public class ZombieChoque extends Entity {
         }
     }
 
-    @Override
+    @Override       //encontrar un objetivo en un rango del tablero, si es un posible objetivo(es enemigo) lo retorna.
     public Tile determineObjective() {
         for(int i = getLocationY()-range; i<getLocationY()+range; i++){
             for(int j = getLocationX()-range; j<this.getLocationX()+range; i++){
