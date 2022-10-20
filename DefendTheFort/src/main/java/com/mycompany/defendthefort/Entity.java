@@ -77,8 +77,8 @@ public abstract class Entity {
       this.vida -= life;  
     }      
             
-    public void morir(){
+    public abstract void morir();
         
-    }
+    
 }
 

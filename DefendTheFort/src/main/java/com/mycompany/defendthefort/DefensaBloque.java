@@ -16,26 +16,43 @@ import com.mycompany.defendthefort.Tile;
 public class DefensaBloque extends Entity{
     
     
-    
+    int range = 1;
     
     DefensaBloque(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);
         
     }
 
-    @Override
     public void atacar() {
-        return;
+        Tile objective = determineObjective();
+        if(objective!=null && !this.getFlyingEntities().contains(objective)){
+        objective.personaje.substractLife(cantidadGolpes);
+        if(objective.personaje.getLife() < 0)
+            objective.personaje.morir();
+        }
     }
 
     @Override
     public Tile determineObjective() {
-       return null;
+        for(int i = getLocationY()-range; i<getLocationY()+range; i++){
+            for(int j = getLocationX()-range; j<this.getLocationX()+range; i++){
+                Tile[][] matrix = this.getGrid().getMatrix();
+                if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0){
+                    if(matrix[i][j].personaje!=null && this.getDefenses().contains(matrix[i][j].personaje))
+                        return matrix[i][j];
+                }           
+            }
+        }
+        return null;
     }
 
    @Override
     public void mover(){
-        
+        return;
+    }
+
+    public void morir() {
+       System.out.println("me mori xC");
     }
     
 }

@@ -75,23 +75,24 @@ public final class Tablero extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
-                    .addComponent(btnSalir3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(btnSalir3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalir3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnSalir3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -100,6 +101,18 @@ public final class Tablero extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
+        for(Tile[] tileRow: matriz){
+            for(Tile tileColumn: tileRow){
+                if (tileColumn.personaje!=null){
+                    System.out.println("Encontrado en: " + tileColumn.personaje.getLocationX() + "-" + tileColumn.personaje.getLocationY());
+                    while(tileColumn.personaje.getLife()>0){
+                        tileColumn.personaje.atacar();
+                        System.out.println(tileColumn.personaje.determineObjective().personaje.getLife());
+                    }
+                    tileColumn.personaje.mover();
+                }      
+            }  
+        }
     }//GEN-LAST:event_btnSalirActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
@@ -121,26 +134,12 @@ public final class Tablero extends javax.swing.JFrame {
                     random = rand.nextInt(96);
                     if (random == 10||random == 9||random == 8||random == 7 
                       ||random == 6 ||random == 5||random == 4||random == 3){
-                        matriz[i][j].personaje = new ZombieContacto("ZombieContacto",100,30,30,30,30, this) {
-                            @Override
-                            public void atacar() {
-                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                            }
-
-                            @Override
-                            public Tile determineObjective() {
-                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                            }
-
-                            @Override
-                            public void mover() {
-                                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-                            }
-                        };
+                        matriz[i][j].personaje = new ZombieContacto("ZombieContacto",100,3,1,1,1, this);
                         matriz[i][j].personaje.setDefenses(nivel.getDefenses());
                         matriz[i][j].personaje.setZombies(nivel.getZombies());
                         matriz[i][j].personaje.setFlyingEntities(nivel.getFlyingEntities());
-                        matriz[i][j].personaje.setLocation(j, i);
+                        matriz[i][j].personaje.setLocation(i, j);
+                        System.out.println(j + "-" + i);
                         matriz[i][j].button.setText(".");
                         zombieCapacity=-2;
                         nivel.getZombies().add(matriz[i][j].personaje);
@@ -148,6 +147,13 @@ public final class Tablero extends javax.swing.JFrame {
                 }
             }
         }
+        
+        matriz[1][1].personaje = new ZombieContacto("ZombieContacto",3,30,1,1, 1, this);
+        matriz[1][1].personaje.setLocation(0, 0);
+        matriz[1][1].button.setText("E");
+        matriz[2][2].personaje = new DefensaContacto("DefensaContacto",3,30,1,1, 1, this);
+        matriz[1][1].personaje.setLocation(2, 2);
+        matriz[2][2].button.setText("E");
     }
     
     public void generarBotones(){

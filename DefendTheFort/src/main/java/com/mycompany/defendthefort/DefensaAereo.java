@@ -48,7 +48,12 @@ public class DefensaAereo extends Entity{
 
    @Override
     public void mover(){
-        
+        return;
+    }
+
+    @Override
+    public void morir() {
+       System.out.println("me mori xC");
     }
     
 }

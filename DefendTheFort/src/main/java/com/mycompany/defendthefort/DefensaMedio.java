@@ -20,6 +20,7 @@ public class DefensaMedio extends Entity{
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);  
     }
 
+    @Override
     public void atacar() {
         Tile objective = determineObjective();
         if(objective!=null && !this.getFlyingEntities().contains(objective)){
@@ -46,6 +47,11 @@ public class DefensaMedio extends Entity{
     @Override
     public void mover(){
         
+    }
+
+    @Override
+    public void morir() {
+       System.out.println("me mori xC");
     }
     
 }
