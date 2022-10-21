@@ -10,30 +10,9 @@ public abstract class Entity {
     private  ArrayList<Entity> zombies = new ArrayList();
     private  ArrayList<Entity> defenses = new ArrayList();
     private  ArrayList<Entity> flyingEntities = new ArrayList();
+    private Registro register = new Registro(this);
 
-    public void setZombies(ArrayList<Entity> zombies) {
-        this.zombies = zombies;
-    }
-
-    public void setDefenses(ArrayList<Entity> defenses) {
-        this.defenses = defenses;
-    }
-
-    public void setFlyingEntities(ArrayList<Entity> flyingEntities) {
-        this.flyingEntities = flyingEntities;
-    }
-
-    public ArrayList<Entity> getZombies() {
-        return zombies;
-    }
-
-    public ArrayList<Entity> getDefenses() {
-        return defenses;
-    }
-
-    public ArrayList<Entity> getFlyingEntities() {
-        return flyingEntities;
-    }
+   
    
     
     public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
@@ -78,7 +57,37 @@ public abstract class Entity {
     }      
             
     public abstract void morir();
-        
+
+     public void setZombies(ArrayList<Entity> zombies) {
+        this.zombies = zombies;
+    }
+
+    public void setRegister(Registro register) {
+        this.register = register;
+    }
+
+    public void setDefenses(ArrayList<Entity> defenses) {
+        this.defenses = defenses;
+    }
+
+    public void setFlyingEntities(ArrayList<Entity> flyingEntities) {
+        this.flyingEntities = flyingEntities;
+    }
+
+    public ArrayList<Entity> getZombies() {
+        return zombies;
+    }
+
+    public ArrayList<Entity> getDefenses() {
+        return defenses;
+    }
+
+    public ArrayList<Entity> getFlyingEntities() {
+        return flyingEntities;
+    }
     
+    public Registro getRegister(){
+        return register;
+    }
 }
 
