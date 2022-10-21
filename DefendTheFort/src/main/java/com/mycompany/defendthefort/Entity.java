@@ -50,7 +50,7 @@ public abstract class Entity {
     public abstract Tile determineObjective();
     
     
-    public void setLocation(int x, int y){
+    public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;
     }

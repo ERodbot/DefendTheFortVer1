@@ -6,6 +6,7 @@ package com.mycompany.defendthefort;
 import com.mycompany.defendthefort.Entity;
 import com.mycompany.defendthefort.Tablero;
 import com.mycompany.defendthefort.Tile;
+import java.awt.Color;
 
 /**
  *
@@ -48,15 +49,18 @@ public class ZombieContacto extends Entity{
                 Tile[][] matrix = this.getGrid().getMatrix();
                 System.out.println("got matrix");
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0){  
-                    if(matrix[i][j].personaje!=null && this.getDefenses().contains(matrix[i][j].personaje))
-                        System.out.println("got objt");
-                        return matrix[i][j];
-                }         
+                    if(matrix[i][j].personaje!=null){
+                        System.out.println("found object at: " + i + "-" + j);
+                        if(this.getDefenses().contains(matrix[i][j].personaje)){
+                            System.out.println("got objt");
+                            return matrix[i][j];
+                        }
+                    }         
+                }
             }
         }
         System.out.println("got objtNull");
         return null;
-        
     }
    
     @Override
@@ -66,35 +70,59 @@ public class ZombieContacto extends Entity{
         
         if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[++posx][++posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow); 
+            return;
         }
         if ( difx < 0 && dify > 0){ //diagonal derecha abajo
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[++posx][--posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            return;
         }
         if ( difx > 0 && dify < 0){ //diagonal izquierda arriba
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[--posx][++posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            return;
         }
         if ( difx > 0 && dify > 0){ //diagonal derecha arriba
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[--posx][--posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow); 
+            return;
         }
         if ( difx == 12 && dify < 0){ //derecha 
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[posx][++posy].personaje = this;
+            grid.matriz[posx][posy].personaje = this;
+            return;
         }
         if ( difx == 0 && dify > 0){ //izquierda
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[posx][--posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            return;
         }
         if ( difx < 0 && dify == 0){ //arriba
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[++posx][posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            return;
         }
         if ( difx > 0 && dify == 0){ //abajo
             grid.matriz[posx][posy].personaje = null;
+            grid.matriz[posx][posy].button.setBackground(Color.white); 
             grid.matriz[--posx][posy].personaje = this;
+            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            return;
         }
         
         
