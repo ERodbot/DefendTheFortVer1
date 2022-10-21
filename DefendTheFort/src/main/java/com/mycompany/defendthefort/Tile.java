@@ -23,7 +23,7 @@ public class Tile {
         this.button = button;  
     }
     
-     public void setLocation(int x, int y){
+     public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;
     }
