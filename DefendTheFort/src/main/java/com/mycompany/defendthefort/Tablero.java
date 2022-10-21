@@ -107,13 +107,14 @@ public final class Tablero extends javax.swing.JFrame {
                 if (tileColumn.personaje!=null){
                     System.out.println("Encontrado en: " + tileColumn.personaje.getLocationY() + "-" + tileColumn.personaje.getLocationX());
                     if(tileColumn.personaje.determineObjective()!=null){
-                        System.out.println("Objetivo encontrado, a atacar!");
+//                        System.out.println("Objetivo encontrado, a atacar!");
                         while(tileColumn.personaje.determineObjective().personaje.getLife()>0){
+//                            System.out.println("!!!!!!!!!!!!!!!!!!!YESSSS");
                             tileColumn.personaje.atacar();
                             System.out.println(tileColumn.personaje.determineObjective().personaje.getLife());
                         }
                     }
-                    System.out.println("se movio");
+//                    System.out.println("se movio");
                     tileColumn.personaje.mover();
                 }      
             }  
@@ -140,6 +141,7 @@ public final class Tablero extends javax.swing.JFrame {
                     if (random == 10||random == 9||random == 8||random == 7 
                       ||random == 6 ||random == 5||random == 4||random == 3){
                         matriz[i][j].personaje = new ZombieContacto("ZombieContacto",100,3,1,1,1, this);
+                        nivel.getZombies().add(matriz[i][j].personaje);
                         matriz[i][j].personaje.setDefenses(nivel.getDefenses());
                         matriz[i][j].personaje.setZombies(nivel.getZombies());
                         matriz[i][j].personaje.setFlyingEntities(nivel.getFlyingEntities());
@@ -147,23 +149,27 @@ public final class Tablero extends javax.swing.JFrame {
                         System.out.println(i + "-" + j);
                         matriz[i][j].button.setText(".");
                         zombieCapacity=-2;
-                        nivel.getZombies().add(matriz[i][j].personaje);
-                        matriz[i][j].personaje.setZombies(nivel.getZombies());
+                        System.out.println("contiene?: " + nivel.getZombies().contains(matriz[i][j].personaje));
+                        System.out.println("contieneElEntityA?: " + matriz[i][j].personaje.getZombies().contains(matriz[i][j].personaje));
                     }
                 }
             }
         }
         
-        matriz[0][5].personaje = new ZombieContacto("ZombieContacto",3,3,1,1, 1, this);
+        matriz[0][5].personaje = new ZombieContacto("ZombieContacto",100,3,1,1, 1, this);
         matriz[0][5].personaje.setLocation(0, 5);
         matriz[0][5].button.setBackground(Color.red);
-        nivel.getZombies().add(matriz[0][5].personaje);
-        matriz[0][5].personaje.setZombies(nivel.getZombies());
-        matriz[0][6].personaje = new DefensaContacto("DefensaContacto",3,3,1,1, 1, this);
-        matriz[0][6].personaje.setLocation(2, 9);
+        matriz[0][6].personaje = new DefensaContacto("DefensaContacto",100,3,1,1, 1, this);
+        matriz[0][6].personaje.setLocation(0, 6);
         matriz[0][6].button.setBackground(Color.red);
+        
+        nivel.getZombies().add(matriz[0][5].personaje);
         nivel.getDefenses().add(matriz[0][6].personaje);
-        matriz[0][6].personaje.setDefenses(nivel .getDefenses());
+         
+        matriz[0][5].personaje.setZombies(nivel.getZombies());
+        matriz[0][5].personaje.setDefenses(nivel.getDefenses());
+        matriz[0][6].personaje.setZombies(nivel.getZombies());
+        matriz[0][6].personaje.setDefenses(nivel.getDefenses());
     }
     
     public void generarBotones(){

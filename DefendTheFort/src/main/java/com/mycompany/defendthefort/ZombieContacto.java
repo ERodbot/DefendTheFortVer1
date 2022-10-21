@@ -26,14 +26,20 @@ public class ZombieContacto extends Entity{
 
     @Override
     public void morir() {
-       System.out.println("me mori xC");
+       System.out.println("me mori xC soy zombie");
     }
 
     @Override
     public void atacar() {
         Tile objective = determineObjective();
         if(objective!=null && !this.getFlyingEntities().contains(objective)){
+            objective.button.setBackground(Color.blue);
+            System.out.println("El objetivo esta en: " + objective.personaje.getLocationY() + "-" + objective.personaje.getLocationX());
             objective.personaje.substractLife(cantidadGolpes);
+            objective.personaje.getRegister().getAttackers().add(this);
+            objective.personaje.getRegister().getDamageReceived().add(this.cantidadGolpes);
+            this.getRegister().getAttacked().add(objective.personaje);
+            this.getRegister().getDamageDone().add(this.cantidadGolpes);
             if(objective.personaje.getLife() < 0)
                 objective.personaje.morir();
         }
@@ -43,16 +49,16 @@ public class ZombieContacto extends Entity{
     @Override
     public Tile determineObjective() {
         for(int i = getLocationY()-range; i<getLocationY()+range+1; i++){
-            System.out.println("locationy: " + i);
+//            System.out.println("locationy: " + i);
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
-                System.out.println("locationx: " + j);
+//                System.out.println("locationx: " + j);
                 Tile[][] matrix = this.getGrid().getMatrix();
-                System.out.println("got matrix");
+//                System.out.println("got matrix");
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0){  
                     if(matrix[i][j].personaje!=null){
-                        System.out.println("found object at: " + i + "-" + j);
+//                        System.out.println("found object at: " + i + "-" + j);
                         if(this.getDefenses().contains(matrix[i][j].personaje)){
-                            System.out.println("got objt");
+                            System.out.println("got object");
                             return matrix[i][j];
                         }
                     }         
