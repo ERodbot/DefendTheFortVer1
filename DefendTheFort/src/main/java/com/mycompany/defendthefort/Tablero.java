@@ -7,16 +7,22 @@ import java.util.Random;
 
 public final class Tablero extends javax.swing.JFrame {
 
-    public Nivel nivel;
+    public int nivel;
     public final Tile[][] matriz = new Tile[25][25];
-    private final int ancho = 35;
-    private final int alto = 35;
-    public int zombieCapacity = 20;
+    private final int ancho = 35,  alto = 35;
+    public int zombieCapacity = 20 + (nivel-1)*5;
+    private  ArrayList<Entity> zombies = new ArrayList();
+    private  ArrayList<Entity> defenses = new ArrayList();
+    private  ArrayList<Entity> flyingEntities = new ArrayList();
+    int currentCapacity;
+    
+    
     
     public Tablero() {
-        nivel = new Nivel(1);
         initComponents();
         generarBotones();
+        this.nivel = 1;
+        generarZombies();
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +33,8 @@ public final class Tablero extends javax.swing.JFrame {
         pnlPrincipal = new javax.swing.JPanel();
         btnSalir = new javax.swing.JButton();
         btnSalir3 = new javax.swing.JButton();
+        scrollDefenses = new javax.swing.JScrollPane();
+        defensesPnl = new javax.swing.JPanel();
 
         btnSalir2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnSalir2.setText("Salir");
@@ -69,6 +77,19 @@ public final class Tablero extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout defensesPnlLayout = new javax.swing.GroupLayout(defensesPnl);
+        defensesPnl.setLayout(defensesPnlLayout);
+        defensesPnlLayout.setHorizontalGroup(
+            defensesPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 125, Short.MAX_VALUE)
+        );
+        defensesPnlLayout.setVerticalGroup(
+            defensesPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 763, Short.MAX_VALUE)
+        );
+
+        scrollDefenses.setViewportView(defensesPnl);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,7 +100,8 @@ public final class Tablero extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
-                    .addComponent(btnSalir3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE))
+                    .addComponent(btnSalir3, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                    .addComponent(scrollDefenses))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -87,14 +109,17 @@ public final class Tablero extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                        .addGap(23, 23, 23)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSalir3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(scrollDefenses))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         pack();
@@ -141,16 +166,14 @@ public final class Tablero extends javax.swing.JFrame {
                     if (random == 10||random == 9||random == 8||random == 7 
                       ||random == 6 ||random == 5||random == 4||random == 3){
                         matriz[i][j].personaje = new ZombieContacto("ZombieContacto",100,3,1,1,1, this);
-                        nivel.getZombies().add(matriz[i][j].personaje);
-                        matriz[i][j].personaje.setDefenses(nivel.getDefenses());
-                        matriz[i][j].personaje.setZombies(nivel.getZombies());
-                        matriz[i][j].personaje.setFlyingEntities(nivel.getFlyingEntities());
+                        zombies.add(matriz[i][j].personaje);
+                        matriz[i][j].personaje.setDefenses(defenses);
+                        matriz[i][j].personaje.setZombies(zombies);
+                        matriz[i][j].personaje.setFlyingEntities(flyingEntities);
                         matriz[i][j].personaje.setLocation(i, j);
                         System.out.println(i + "-" + j);
                         matriz[i][j].button.setText(".");
                         zombieCapacity=-2;
-                        System.out.println("contiene?: " + nivel.getZombies().contains(matriz[i][j].personaje));
-                        System.out.println("contieneElEntityA?: " + matriz[i][j].personaje.getZombies().contains(matriz[i][j].personaje));
                     }
                 }
             }
@@ -163,13 +186,12 @@ public final class Tablero extends javax.swing.JFrame {
         matriz[0][6].personaje.setLocation(0, 6);
         matriz[0][6].button.setBackground(Color.red);
         
-        nivel.getZombies().add(matriz[0][5].personaje);
-        nivel.getDefenses().add(matriz[0][6].personaje);
-         
-        matriz[0][5].personaje.setZombies(nivel.getZombies());
-        matriz[0][5].personaje.setDefenses(nivel.getDefenses());
-        matriz[0][6].personaje.setZombies(nivel.getZombies());
-        matriz[0][6].personaje.setDefenses(nivel.getDefenses());
+        zombies.add(matriz[0][5].personaje);
+        defenses.add(matriz[0][6].personaje);
+        matriz[0][5].personaje.setZombies(zombies);
+        matriz[0][5].personaje.setDefenses(defenses);
+        matriz[0][6].personaje.setZombies(zombies);
+        matriz[0][6].personaje.setDefenses(defenses);
     }
     
     public void generarBotones(){
@@ -219,11 +241,57 @@ public final class Tablero extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void setZombies(ArrayList<Entity> zombies) {
+        this.zombies = zombies;
+    }
 
+    public void setDefenses(ArrayList<Entity> defenses) {
+        this.defenses = defenses;
+    }
+
+    public void setFlyingEntities(ArrayList<Entity> flyingEntities) {
+        this.flyingEntities = flyingEntities;
+    }
+
+    public void setCurrentCapacity(int currentCapacity) {
+        this.currentCapacity = currentCapacity;
+    }
+
+    public ArrayList<Entity> getZombies() {
+        return zombies;
+    }
+
+    public ArrayList<Entity> getDefenses() {
+        return defenses;
+    }
+
+    public ArrayList<Entity> getFlyingEntities() {
+        return flyingEntities;
+    }
+
+    public int getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    public int getLevel() {
+        return nivel;
+    }
+    
+    public void addCurrentCapacity(int capacityCost){
+        this.currentCapacity+=capacityCost;
+    }
+    
+
+    
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSalir;
     private javax.swing.JButton btnSalir2;
     private javax.swing.JButton btnSalir3;
+    private javax.swing.JPanel defensesPnl;
     private javax.swing.JPanel pnlPrincipal;
+    private javax.swing.JScrollPane scrollDefenses;
     // End of variables declaration//GEN-END:variables
 }
