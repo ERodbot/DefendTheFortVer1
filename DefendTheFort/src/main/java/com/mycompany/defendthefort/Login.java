@@ -4,6 +4,7 @@
  */
 package com.mycompany.defendthefort;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -109,8 +110,12 @@ public class Login extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         if(usuarios.buscarUsuario(txfUser.getText(), txfPsw.getText())){
             User usuario = usuarios.obtenerUsuario(txfUser.getText());
-            Tablero grid = new Tablero();
-            grid.setVisible(rootPaneCheckingEnabled);
+            GameScreen game = new GameScreen();
+            game.setResizable(false);
+            game.setLocationRelativeTo(null);
+            game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            game.setVisible(rootPaneCheckingEnabled);
+            
             
             
         }

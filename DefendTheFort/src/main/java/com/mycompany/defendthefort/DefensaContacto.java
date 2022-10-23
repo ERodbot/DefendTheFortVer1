@@ -4,8 +4,9 @@
  */
 package com.mycompany.defendthefort;
 import com.mycompany.defendthefort.Entity;
-import com.mycompany.defendthefort.Tablero;
+import com.mycompany.defendthefort.Grid;
 import com.mycompany.defendthefort.Tile;
+import javax.swing.ImageIcon;
 
 
 
@@ -18,7 +19,7 @@ public class DefensaContacto extends Entity{
     
     int range = 1;
     
-    DefensaContacto(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
+    DefensaContacto(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid){
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);
         
     }
@@ -70,6 +71,7 @@ public class DefensaContacto extends Entity{
 
     @Override
     public void morir() {
+       grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\grave.png"));
        System.out.println("me mori xC soy defensa");
     }
     

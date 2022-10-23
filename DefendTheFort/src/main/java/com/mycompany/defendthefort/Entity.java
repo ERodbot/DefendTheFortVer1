@@ -6,23 +6,26 @@ public abstract class Entity {
     public String nombre;
     public int vida;
     public int cantidadGolpes, nivel, campos, nivelAparicion, posx, posy;   
-    public Tablero grid;
+    public Grid grid;
     private  ArrayList<Entity> zombies = new ArrayList();
     private  ArrayList<Entity> defenses = new ArrayList();
     private  ArrayList<Entity> flyingEntities = new ArrayList();
     private Registro register = new Registro(this);
+    public ThreadEntity thread;
+    
 
    
    
     
-    public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
+    public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid){
         this.nombre = nombre;
         this.vida = vida;
         this.cantidadGolpes = cantidadGolpes;
         this.nivel = nivel;
         this.campos = campos;
         this.nivelAparicion = nivelAparicion;
-        this.grid = grid;   
+        this.grid = grid; 
+        this.thread = new ThreadEntity(this,grid);
     }
     public abstract void mover();
     public abstract void atacar();
@@ -40,7 +43,7 @@ public abstract class Entity {
          return posy;
     }
     
-    public Tablero getGrid(){
+    public Grid getGrid(){
         return grid;
     }
     
