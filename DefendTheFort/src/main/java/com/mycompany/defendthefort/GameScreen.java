@@ -4,17 +4,38 @@
  */
 package com.mycompany.defendthefort;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.util.ArrayList;
+import javax.swing.BoxLayout;
+import static javax.swing.GroupLayout.Alignment.CENTER;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 /**
  *
  * @author em000
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    int level = 0;
+    private ArrayList<Grid> levelGrid = new ArrayList<Grid>();
+    private  ArrayList<Entity> defenses = new ArrayList<Entity>();
+    private  ArrayList<Entity> zombies = new ArrayList<Entity>();
+    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
+    final int ancho = 35, alto = 35;
+    
     /**
      * Creates new form GameScreen
      */
     public GameScreen() {
         initComponents();
+        for(int i = 0; i<10; i++){
+            levelGrid.add(new Grid());
+        }
+        
+     
     }
 
     /**
@@ -26,22 +47,147 @@ public class GameScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnlContent = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        tpnlContent = new javax.swing.JTabbedPane();
+        pnlInitialScreen = new javax.swing.JPanel();
+        btnInitializeGmae = new javax.swing.JButton();
+        pnlGame = new javax.swing.JPanel();
+        scrollDefenses = new javax.swing.JScrollPane();
+        btnStart = new javax.swing.JButton();
+        btnPause = new javax.swing.JButton();
+        btnOpciones = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1200, 1200));
+
+        pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1200, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
+
+        pnlContent.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 30));
+
+        btnInitializeGmae.setText("Empezar Partida");
+        btnInitializeGmae.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInitializeGmaeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlInitialScreenLayout = new javax.swing.GroupLayout(pnlInitialScreen);
+        pnlInitialScreen.setLayout(pnlInitialScreenLayout);
+        pnlInitialScreenLayout.setHorizontalGroup(
+            pnlInitialScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInitialScreenLayout.createSequentialGroup()
+                .addGap(387, 387, 387)
+                .addComponent(btnInitializeGmae, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(641, Short.MAX_VALUE))
+        );
+        pnlInitialScreenLayout.setVerticalGroup(
+            pnlInitialScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInitialScreenLayout.createSequentialGroup()
+                .addGap(183, 183, 183)
+                .addComponent(btnInitializeGmae, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1442, Short.MAX_VALUE))
+        );
+
+        tpnlContent.addTab("tab1", pnlInitialScreen);
+
+        btnStart.setText("EMPEZAR PARTIDA");
+        btnStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStartActionPerformed(evt);
+            }
+        });
+
+        btnPause.setText("PAUSAR");
+
+        btnOpciones.setText("OPCIONES");
+
+        javax.swing.GroupLayout pnlGameLayout = new javax.swing.GroupLayout(pnlGame);
+        pnlGame.setLayout(pnlGameLayout);
+        pnlGameLayout.setHorizontalGroup(
+            pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlGameLayout.createSequentialGroup()
+                .addContainerGap(899, Short.MAX_VALUE)
+                .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnPause, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(scrollDefenses, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        pnlGameLayout.setVerticalGroup(
+            pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlGameLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(scrollDefenses, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(btnPause, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(1081, Short.MAX_VALUE))
+        );
+
+        tpnlContent.addTab("tab2", pnlGame);
+
+        pnlContent.add(tpnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1200, 1710));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(pnlContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(1216, 911));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnInitializeGmaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInitializeGmaeActionPerformed
+        // TODO add your handling code here:
+        Grid currentLevel = levelGrid.get(level);
+        placeButtons(currentLevel.getMatrix());
+        tpnlContent.setSelectedIndex(1);
+    }//GEN-LAST:event_btnInitializeGmaeActionPerformed
+
+    private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
+        // TODO add your handling code here:
+        Grid currentLevel = levelGrid.get(level);
+        currentLevel.SimulacionCochina();
+        
+    }//GEN-LAST:event_btnStartActionPerformed
+
+    
+    public void placeButtons(Tile[][] matrix){
+        for (int i = 0; i < 25; i++) {
+            for (int j = 0; j < 25; j++) {
+                pnlGame.add(matrix[i][j].button, 2);
+                matrix[i][j].button.setOpaque(rootPaneCheckingEnabled);
+                matrix[i][j].button.setLocation(i*ancho, alto*j);
+            }
+        }
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -78,5 +224,15 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInitializeGmae;
+    private javax.swing.JButton btnOpciones;
+    private javax.swing.JButton btnPause;
+    private javax.swing.JButton btnStart;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel pnlContent;
+    private javax.swing.JPanel pnlGame;
+    private javax.swing.JPanel pnlInitialScreen;
+    private javax.swing.JScrollPane scrollDefenses;
+    private javax.swing.JTabbedPane tpnlContent;
     // End of variables declaration//GEN-END:variables
 }

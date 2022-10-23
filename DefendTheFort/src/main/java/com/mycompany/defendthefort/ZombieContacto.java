@@ -4,9 +4,10 @@
  */
 package com.mycompany.defendthefort;
 import com.mycompany.defendthefort.Entity;
-import com.mycompany.defendthefort.Tablero;
+import com.mycompany.defendthefort.Grid;
 import com.mycompany.defendthefort.Tile;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,7 +19,7 @@ public class ZombieContacto extends Entity{
     
     
     
-    ZombieContacto(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
+    ZombieContacto(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid){
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);
         range = 1;
     }
@@ -75,59 +76,59 @@ public class ZombieContacto extends Entity{
         int dify = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         
         if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[++posx][++posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow); 
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[++posx][++posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ; 
             return;
         }
         if ( difx < 0 && dify > 0){ //diagonal derecha abajo
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[++posx][--posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[++posx][--posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
         if ( difx > 0 && dify < 0){ //diagonal izquierda arriba
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[--posx][++posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[--posx][++posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
         if ( difx > 0 && dify > 0){ //diagonal derecha arriba
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[--posx][--posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow); 
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[--posx][--posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ; 
             return;
         }
-        if ( difx == 12 && dify < 0){ //derecha 
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[posx][++posy].personaje = this;
-            grid.matriz[posx][posy].personaje = this;
+        if ( difx == 0 && dify < 0){ //abajo
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ; 
+            grid.matrix[posx][++posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
-        if ( difx == 0 && dify > 0){ //izquierda
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[posx][--posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+        if ( difx == 0 && dify > 0){ //arriba
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[posx][--posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
-        if ( difx < 0 && dify == 0){ //arriba
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[++posx][posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+        if ( difx < 0 && dify == 0){ //izquierda
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[++posx][posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
-        if ( difx > 0 && dify == 0){ //abajo
-            grid.matriz[posx][posy].personaje = null;
-            grid.matriz[posx][posy].button.setBackground(Color.white); 
-            grid.matriz[--posx][posy].personaje = this;
-            grid.matriz[posx][posy].button.setBackground(Color.yellow);
+        if ( difx > 0 && dify == 0){ //derecha
+            grid.matrix[posx][posy].personaje = null;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\ground.png")) ;
+            grid.matrix[--posx][posy].personaje = this;
+            grid.matrix[posx][posy].button.setIcon(new ImageIcon("C:\\Images\\zombies.png")) ;
             return;
         }
         

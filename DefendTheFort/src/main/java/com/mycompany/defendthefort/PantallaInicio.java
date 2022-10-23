@@ -5,6 +5,7 @@
 package com.mycompany.defendthefort;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
@@ -185,8 +186,12 @@ public class PantallaInicio extends javax.swing.JFrame {
             if(!txfID.getText().trim().equals("") && !txfNombre.getText().trim().equals("") && !txfPsw.getText().trim().equals("")){
                 login.usuarios.darDeAlta(txfID.getText(), txfNombre.getText(), txfPsw.getText());     
                 User usuario = login.usuarios.obtenerUsuario(txfID.getText());
-                Tablero tablero = new Tablero();
-                tablero.setVisible(true);
+                GameScreen game = new GameScreen();
+                game.setResizable(false);
+                game.setLocationRelativeTo(null);
+                game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                game.setVisible(rootPaneCheckingEnabled);
+                game.setVisible(true);
             }
         }
     

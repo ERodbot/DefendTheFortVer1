@@ -29,5 +29,6 @@ public class DefendTheFort {
             PantallaInicio pi = new PantallaInicio();
             pi.setVisible(true);
 ////        
+        Grid grid = new Grid();
     }
 }

@@ -4,7 +4,7 @@
  */
 package com.mycompany.defendthefort;
 import com.mycompany.defendthefort.Entity;
-import com.mycompany.defendthefort.Tablero;
+import com.mycompany.defendthefort.Grid;
 import com.mycompany.defendthefort.Tile;
 
 
@@ -18,7 +18,7 @@ public class DefensaBloque extends Entity{
     
     int range = 1;
     
-    DefensaBloque(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Tablero grid){
+    DefensaBloque(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid){
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid);
         
     }
