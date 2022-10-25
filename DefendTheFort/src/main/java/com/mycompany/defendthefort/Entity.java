@@ -1,6 +1,7 @@
 package com.mycompany.defendthefort;
 
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
 public abstract class Entity {
     public String nombre;
@@ -12,26 +13,33 @@ public abstract class Entity {
     private  ArrayList<Entity> flyingEntities = new ArrayList();
     private Registro register = new Registro(this);
     public ThreadEntity thread;
+    ImageIcon moving;
+    ImageIcon attacking;
+            
     
 
    
    
     
-    public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid){
+    public Entity(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid, ImageIcon movementfilePath, ImageIcon attackfilePath){
         this.nombre = nombre;
         this.vida = vida;
         this.cantidadGolpes = cantidadGolpes;
         this.nivel = nivel;
         this.campos = campos;
         this.nivelAparicion = nivelAparicion;
-        this.grid = grid; 
+        this.grid = grid;
+        this.moving = movementfilePath;
+        this.attacking = attackfilePath;
+        ImageIcon attacking;
         this.thread = new ThreadEntity(this,grid);
     }
     public abstract void mover();
     public abstract void atacar();
     public abstract Tile determineObjective();
-    
-    
+    @Override
+    public abstract Entity clone();
+   
     public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;
