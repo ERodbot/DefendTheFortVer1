@@ -39,22 +39,15 @@ public class DefensaMedio extends Entity{
     }
 
     @Override
-    public Tile determineObjective() {
+        public Tile determineObjective() {
         for(int i = getLocationY()-range; i<getLocationY()+range+1; i++){
-//            System.out.println("locationy: " + i);
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
-//                System.out.println("locationx: " + j);
                 Tile[][] matrix = this.getGrid().getMatrix();
-//                System.out.println("got matrix");
-                if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0){  
-                    if(matrix[i][j].personaje!=null){
-//                        System.out.println("found object at: " + i + "-" + j);
-                        if(this.getZombies().contains(matrix[i][j].personaje)){
-                            System.out.println("got objt");
-                            return matrix[i][j];
-                        }
-                    }         
-                }
+                if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
+                    if(this.getZombies().contains(matrix[i][j].personaje)){
+                        return matrix[i][j];
+                    }
+                }         
             }
         }
         System.out.println("got objtNull");
@@ -62,10 +55,9 @@ public class DefensaMedio extends Entity{
     }
    
 
-
-   @Override
+    @Override
     public void mover(){
-        grid.matrix[posx][posy].button.setIcon(attacking);
+        
     }
 
     @Override

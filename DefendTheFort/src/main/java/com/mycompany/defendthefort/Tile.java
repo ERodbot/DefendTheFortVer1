@@ -25,19 +25,19 @@ public class Tile {
     Tile(Grid grid){
         JButton button = new JButton();
         button.setSize(ancho, alto);
-        this.button = button;  
+        this.button = button;
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                     if(!(posx == 0 || posx == 24 || posy == 0 || posy == 24) && grid.getEntityLoaded()!=null){
                             if((grid.getDefenseCapacity() - grid.getEntityLoaded().campos) > 0){
                                 personaje = grid.getEntityLoaded().clone();
-                                try{
-                                    DefensaAereo aereo = (DefensaAereo)personaje;
-                                    grid.getFlyingEntities().add(personaje);
-                                }catch(ClassCastException ex){
-                                    System.out.println("");
-                                }
+//                                try{
+//                                    DefensaAereo aereo = (DefensaAereo)personaje;
+//                                    grid.getFlyingEntities().add(personaje);
+//                                }catch(ClassCastException ex){
+//                                    System.out.println("");
+//                                }
                                 grid.getThreadArray().add(personaje.thread);
                                 grid.getDefenses().add(personaje);
                                 grid.setDefenseCapacity(grid.getDefenseCapacity()-personaje.campos);

@@ -36,9 +36,6 @@ public class GameScreen extends javax.swing.JFrame {
     private  ArrayList<Entity> zombies = new ArrayList<Entity>();
     private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
     final int ancho = 35, alto = 35;
-    private int posXClicked;
-    private int posYClicked;
-    private Entity entityLoaded;
     
     /**
      * Creates new form GameScreen
@@ -238,13 +235,13 @@ public class GameScreen extends javax.swing.JFrame {
         ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\zombies.png");
         ImageIcon moving = attacking;
         System.out.println("hello");
-        Entity zombieContacto = new ZombieContacto("ZombieContacto",100,3,1,5,1, currentGrid, moving, attacking);
+        Entity zombieContacto = new ZombieContacto("ZombieContacto",100,10,1,5,1, currentGrid, moving, attacking);
         Entity zombieContactoFuerte = new ZombieContacto("zombieContactoFuerte",200,20,1,5,1, currentGrid, moving, attacking);
-        Entity zombieChoque = new ZombieChoque("zombieChoque",150,1,1,5,1, currentGrid, moving, attacking);
-        Entity zombieMedio = new ZombieMedio("zombieMedio",100,3,1,2,1, currentGrid, moving, attacking);
+        Entity zombieChoque = new ZombieChoque("zombieChoque",150,15,1,5,1, currentGrid, moving, attacking);
+        Entity zombieMedio = new ZombieMedio("zombieMedio",100,15,1,2,1, currentGrid, moving, attacking);
         Entity zombieMedioConEsteroides = new ZombieContacto("zombieMedioConEsteroides",100,10,1,4,1, currentGrid, moving, attacking);
-        Entity zombieAereo = new ZombieAereo("zombieAereo",30,5,1,3,1, currentGrid, moving, attacking);
-        Entity zombieAereo2 = new ZombieAereo("zombieAereo2",90,3,1,3,1, currentGrid, moving, attacking);
+        Entity zombieAereo = new ZombieAereo("zombieAereo",30,20,1,3,1, currentGrid, moving, attacking);
+        Entity zombieAereo2 = new ZombieAereo("zombieAereo2",90,25,1,3,1, currentGrid, moving, attacking);
         zombies.add(zombieContacto);
         zombies.add(zombieContactoFuerte);
         zombies.add(zombieChoque);
@@ -260,9 +257,9 @@ public class GameScreen extends javax.swing.JFrame {
         ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\zombies.png");
         ImageIcon moving = attacking;
         System.out.println("hello");
-        Entity DefensaAereo = new DefensaAereo("DefensaAerea",100,3,1,2,1, currentGrid, moving, attacking);
-        Entity DefensaContactoFuerte = new DefensaContacto("DefensaContactoFuerte",150,20,1,4,1, currentGrid, moving, attacking);
-        Entity DefensaContacto = new DefensaContacto("DefensaContacto",150,1,1,1,1, currentGrid, moving, attacking);
+        Entity DefensaAereo = new DefensaAereo("DefensaAerea",100,10,1,2,1, currentGrid, moving, attacking);
+        Entity DefensaContactoFuerte = new DefensaContacto("DefensaContactoFuerte",150,20,1,0,1, currentGrid, moving, attacking);
+        Entity DefensaContacto = new DefensaContacto("DefensaContacto",150,10,1,1,1, currentGrid, moving, attacking);
         Entity DefensaMedio = new DefensaBloque("DefensaMedio",100,3,1,1,currentGrid, moving, attacking);
         Entity DefensaMedioConEsteroides = new DefensaMedio("DefensaMedioConEsteroides",100,10,1,5,1, currentGrid, moving, attacking);
         Entity DefensaAereo2 = new DefensaAereo("DefensaAereo2",30,5,1,5,1, currentGrid, moving, attacking);
