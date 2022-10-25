@@ -4,7 +4,11 @@
  */
 package com.mycompany.defendthefort;
 
+import static com.sun.java.accessibility.util.AWTEventMonitor.addMouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
+import static javax.swing.SwingConstants.LEFT;
 
 /**
  *
@@ -16,15 +20,44 @@ public class Tile {
     private final int ancho = 35;
     private final int alto = 35;
     private int posx,posy;
+    private Grid grid;
     
-    Tile(){
+    Tile(Grid grid){
         JButton button = new JButton();
         button.setSize(ancho, alto);
         this.button = button;  
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    if(!(posx == 0 || posx == 24 || posy == 0 || posy == 24) && grid.getEntityLoaded()!=null){
+                            if((grid.getDefenseCapacity() - grid.getEntityLoaded().campos) > 0){
+                                personaje = grid.getEntityLoaded().clone();
+                                try{
+                                    DefensaAereo aereo = (DefensaAereo)personaje;
+                                    grid.getFlyingEntities().add(personaje);
+                                }catch(ClassCastException ex){
+                                    System.out.println("");
+                                }
+                                grid.getThreadArray().add(personaje.thread);
+                                grid.getDefenses().add(personaje);
+                                grid.setDefenseCapacity(grid.getDefenseCapacity()-personaje.campos);
+                                button.setIcon(personaje.moving);
+                                grid.setEntityLoaded(null);
+                        }
+                    }
+                }
+        });
+        this.grid = grid;
     }
+   
     
      public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;
+    }
+     
+     
+     public Entity buttonActionPerformed(java.awt.event.ActionEvent evt) {
+        return personaje;        
     }
 }

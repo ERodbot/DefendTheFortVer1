@@ -23,21 +23,23 @@ public class ThreadEntity extends Thread {
     
     @Override
     public void run(){
-        while(entity.vida != 0 ){
+        entity.getGrid().getMatrix()[entity.posy][entity.posx].button.setIcon(entity.moving);
+        while(entity.getLife() > 0){
             try {
                 sleep(1000);
-                entity.mover();
                 if (entity.determineObjective() != null){
-                    while (entity.determineObjective().personaje.getLife() > 0){
-                        sleep(500);
+                    while(entity.determineObjective()!=null && entity.determineObjective().personaje.getLife() >0){
+                        System.out.println(entity.nombre + " esta atacando");
                         entity.atacar();
+                        sleep(1000);
                     }
+                    System.out.println(entity.nombre + " deberia dejar de atacar");
                 }
+                entity.mover(); 
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThreadEntity.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            }   
         }
-    
-}
+        entity.morir();
+    }
 }

@@ -17,22 +17,26 @@ public class Grid{
     private  ArrayList<Entity> defenses = new ArrayList<Entity>();
     private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
     private ArrayList<ThreadEntity> threadArray = new ArrayList();
-    int currentCapacity;
-    
-     public Grid() {
+    private int defenseCapacity = 20 + (nivel-1)*5;
+    private final int zombieMaxCapacity = 20 + 5*(nivel-1);
+    private final int defenseMaxCapacity = 20 + 5*(nivel-1);
+    private Entity entityLoaded;
+
+
+     public Grid(int level){
         generarBotones();
-        this.nivel = 1;
+        this.nivel = level;
         generarBotones();
-        generarZombies();
     }
     
      
     public void generarBotones(){
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
-                matrix[i][j] = new Tile();
+                matrix[i][j] = new Tile(this);
                 matrix[i][j].setLocation(i,j);
                 matrix[i][j].button.setIcon(new ImageIcon("C:\\Images\\grass.png"));
+                matrix[i][j].button.setBorderPainted( false );
  
 //Pasar esto a una funcion en la pantalla principal;                
 //                pnlPrincipal.add(matrix[i][j].button);
@@ -43,57 +47,85 @@ public class Grid{
     }
     
     
-    public void generarZombies(){
+    public void generarZombies(ArrayList<Entity> possibleZombies){
         Random rand = new Random();
-        for (int i = 0; i < 25; i++) {
-            for (int j = 0; j < 25; j++) {
-                if (i == 0 || i == 24 || j == 0 || j == 24){
-                    if (zombieCapacity == 0)
-                        return;
-                    int random;
-                    random = rand.nextInt(96);
-                    if (random == 10||random == 9||random == 8||random == 7 
-                      ||random == 6 ||random == 5||random == 4||random == 3){
-                        matrix[i][j].personaje = new ZombieContacto("ZombieContacto",100,3,1,1,1, this);
-                        threadArray.add(matrix[i][j].personaje.thread);
-                        zombies.add(matrix[i][j].personaje);
-                        matrix[i][j].personaje.setDefenses(defenses);
-                        matrix[i][j].personaje.setZombies(zombies);
-                        matrix[i][j].personaje.setFlyingEntities(flyingEntities);
-                        matrix[i][j].personaje.setLocation(i, j);
-                        System.out.println(i + "-" + j);
-                        matrix[i][j].button.setText(".");
-                        zombieCapacity=-2;
-                    }
+        ImageIcon attacking = ImageManager.resize(matrix[0][0].button, "C:\\Images\\zombies.png");
+        ImageIcon moving = ImageManager.resize(matrix[0][0].button, "C:\\Images\\zombies.png");
+        Entity zombie = new ZombieContacto("ZombieContacto",100,3,1,1,1, this, moving, attacking);
+        while(zombieCapacity > 0){
+            int i  = rand.nextInt(0,24);
+            int j = rand.nextInt(0,24);
+            if(!(i == 0 || i == 24 || j == 0 || j == 24))
+                continue;
+            if(matrix[i][j].personaje != null){
+                continue;
+            }
+            if (zombieCapacity == 0)
+                return;
+            int zombieToGenerate  = rand.nextInt(possibleZombies.size()-1);
+            zombie = possibleZombies.get(zombieToGenerate).clone();
+            int correctPositions = rand.nextInt(96);
+            if (correctPositions == 10||correctPositions == 9||correctPositions == 8||correctPositions == 7 ||correctPositions == 6 ||correctPositions == 5||correctPositions == 4||correctPositions == 3){
+                matrix[i][j].personaje = zombie;
+                threadArray.add(matrix[i][j].personaje.thread);
+                zombies.add(matrix[i][j].personaje);
+                try{
+                   ZombieAereo aereo= (ZombieAereo)matrix[i][j].personaje;
+                   flyingEntities.add((Entity)aereo);
+                }catch(ClassCastException e){
+                    System.out.println("");
+                    
                 }
+                matrix[i][j].personaje.setLocation(i, j);
+                zombieCapacity-=zombie.campos;
             }
         }
         
-        matrix[0][5].personaje = new ZombieContacto("ZombieContacto",100,3,1,1, 1, this);
-        matrix[0][5].personaje.setLocation(0, 5);
-        matrix[0][5].button.setBackground(Color.red);
-        matrix[0][6].personaje = new DefensaContacto("DefensaContacto",100,3,1,1, 1, this);
-        matrix[0][6].personaje.setLocation(0, 6);
-        matrix[0][6].button.setBackground(Color.red);
         
-        zombies.add(matrix[0][5].personaje);
-        defenses.add(matrix[0][6].personaje);
-        matrix[0][5].personaje.setZombies(zombies);
-        matrix[0][5].personaje.setDefenses(defenses);
-        matrix[0][6].personaje.setZombies(zombies);
-        matrix[0][6].personaje.setDefenses(defenses);
+    }
+
+    public void actualizeObjectives(){
+        for(Entity defenseEntity: defenses){
+            defenseEntity.setFlyingEntities(flyingEntities);
+            defenseEntity.setDefenses(defenses);
+            defenseEntity.setZombies(zombies);
+        }
+        for(Entity zombieEntity: zombies){
+            zombieEntity.setFlyingEntities(flyingEntities);
+            zombieEntity.setDefenses(defenses);
+            zombieEntity.setZombies(zombies);
+        }
+        for(Entity flyingEntity: flyingEntities){
+            flyingEntity.setFlyingEntities(flyingEntities);
+            flyingEntity.setDefenses(defenses);
+            flyingEntity.setZombies(zombies);
+        }
     }
     
+        
     public void SimulacionCochina(){
-        for (int i = 0; i < 25; i++) {
-            for (int j = 0; j < 25; j++) {
-                if (i == 0 || i == 24 || j == 0 || j == 24){
-                    if (matrix[i][j].personaje != null)
-                        matrix[i][j].personaje.thread.start();
-                }
-            }
-        }    
-    }       
+        actualizeObjectives();
+        if(zombieCapacity <= 0)
+            for(ThreadEntity entity: threadArray)
+               entity.start();
+    }   
+            
+            
+    public void setThreadArray(ArrayList<ThreadEntity> threadArray) {
+        this.threadArray = threadArray;
+    }
+
+    public void setEntityLoaded(Entity entityLoaded) {
+        this.entityLoaded = entityLoaded;
+    }
+
+    public ArrayList<ThreadEntity> getThreadArray() {
+        return threadArray;
+    }
+
+    public Entity getEntityLoaded() {
+        return entityLoaded;
+    }    
 
     public int getNivel() {
         return nivel;
@@ -127,8 +159,8 @@ public class Grid{
         return flyingEntities;
     }
 
-    public int getCurrentCapacity() {
-        return currentCapacity;
+    public int getDefenseCapacity() {
+        return defenseCapacity;
     }
 
     public void setNivel(int nivel) {
@@ -151,8 +183,16 @@ public class Grid{
         this.flyingEntities = flyingEntities;
     }
 
-    public void setCurrentCapacity(int currentCapacity) {
-        this.currentCapacity = currentCapacity;
+    public void setDefenseCapacity(int defenseCapacity) {
+        this.defenseCapacity = defenseCapacity;
+    }
+    
+    public int getZombieMaxCapacity() {
+        return zombieMaxCapacity;
+    }
+
+    public int getDefenseMaxCapacity() {
+        return defenseMaxCapacity;
     }
 
 
