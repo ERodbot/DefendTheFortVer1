@@ -27,7 +27,7 @@ public class ZombieAereo extends Entity{
        ImageIcon grave;
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
-       System.out.println("me mori xC soy defensa");
+       System.out.println("me mori xC soy zombie");
        grid.matrix[posy][posx].personaje = null;
     }
 
@@ -67,66 +67,66 @@ public class ZombieAereo extends Entity{
    
     @Override
     public void mover(){
-        int difx = posx - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
-        int dify = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
+        int dify = posx - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
+        int difx = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         ImageIcon groundIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\ground.png");
         ImageIcon zombieIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\zombies.png");
         
         
         if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[++posx][++posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(attacking) ; 
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[++posy][++posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(attacking) ; 
             return;
         }
         if ( difx < 0 && dify > 0){ //diagonal derecha abajo
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[++posx][--posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[++posy][--posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify < 0){ //diagonal izquierda arriba
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[--posx][++posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[--posy][++posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify > 0){ //diagonal derecha arriba
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[--posx][--posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ; 
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[--posy][--posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ; 
             return;
         }
         if ( difx == 0 && dify < 0){ //abajo
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ; 
-            grid.matrix[posx][++posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ; 
+            grid.matrix[posy][++posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx == 0 && dify > 0){ //arriba
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[posx][--posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][--posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx < 0 && dify == 0){ //izquierda
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[++posx][posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[++posy][posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify == 0){ //derecha
-            grid.matrix[posx][posy].personaje = null;
-            grid.matrix[posx][posy].button.setIcon(groundIcon) ;
-            grid.matrix[--posx][posy].personaje = this;
-            grid.matrix[posx][posy].button.setIcon(zombieIcon) ;
+            grid.matrix[posy][posx].personaje = null;
+            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[--posy][posx].personaje = this;
+            grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }   
     }

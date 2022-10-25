@@ -47,7 +47,7 @@ public class DefensaBloque extends Entity{
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getDefenses().contains(matrix[i][j].personaje)){
+                    if(this.getZombies().contains(matrix[i][j].personaje)){
                         return matrix[i][j];
                     }
                 }         
@@ -61,7 +61,7 @@ public class DefensaBloque extends Entity{
 
    @Override
     public void mover(){
-        return;
+        
     }
 
     @Override

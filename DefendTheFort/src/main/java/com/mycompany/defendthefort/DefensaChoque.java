@@ -8,6 +8,6 @@ package com.mycompany.defendthefort;
  *
  * @author em000
  */
-public class Game {
+public class DefensaChoque {
     
 }
