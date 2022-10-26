@@ -1,6 +1,9 @@
 package com.mycompany.defendthefort;
 
 import java.awt.HeadlessException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 
 public class ComManGUI extends javax.swing.JFrame {
@@ -450,23 +453,45 @@ public class ComManGUI extends javax.swing.JFrame {
     }
     
     private void btnZombieAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZombieAceptarActionPerformed
-        String nombre = txfEnemigoNombre.getText();;
+        
+        //Se tomarán en cuenta 7 valores para agregar al archivo JSON:      
+        String nombre = txfEnemigoNombre.getText();; 
         String path = txfEnemigoPath.getText();
         int vida;
         int golpes;
         int espacios;
         int nivel;
         String tipo = "";
+        //--------------------------------------------------------------
         
-        if (isNumeric(txfEnemigoEspacios.getText()) == false || isNumeric(txfEnemigoGolpes.getText()) == false || isNumeric(txfEnemigoNivel.getText()) == false || isNumeric(txfEnemigoVida.getText()) == false || "".equals(txfEnemigoNombre.getText()) ||"".equals(txfEnemigoPath.getText())){
+        //Comprobación de que el path existe en el dispositivo
+        Path pathRoute = Paths.get(path);
+        
+        if (!(Files.exists(pathRoute))){
+            JOptionPane.showMessageDialog(this,"Dirección de imagen no encontrada");
+            return;
+        }
+        //--------------------------------------------------------------
+        
+        //Comprobación de parámetros válidos (string que sean números para los valores numéricos)
+        if (isNumeric(txfEnemigoEspacios.getText()) == false || isNumeric(txfEnemigoGolpes.getText()) == false 
+            || isNumeric(txfEnemigoNivel.getText()) == false || isNumeric(txfEnemigoVida.getText()) == false 
+            || "".equals(txfEnemigoNombre.getText()) ||"".equals(txfEnemigoPath.getText())){
+            
             JOptionPane.showMessageDialog(this,"Los parámetros son inválidos");
             return;
         }
-        golpes = Integer.parseInt(txfEnemigoGolpes.getText());
-        vida = Integer.parseInt(txfEnemigoVida.getText());
-        espacios = Integer.parseInt(txfEnemigoEspacios.getText());
-        nivel = Integer.parseInt(txfEnemigoNivel.getText());
+        //--------------------------------------------------------------
         
+        //Ya verificado, se pasa el string a int, y se declaran las variables anteriormente inicializadas
+        golpes   = Integer.parseInt(txfEnemigoGolpes.getText());
+        vida     = Integer.parseInt(txfEnemigoVida.getText());
+        espacios = Integer.parseInt(txfEnemigoEspacios.getText());
+        nivel    = Integer.parseInt(txfEnemigoNivel.getText());
+        
+        //--------------------------------------------------------------
+        
+        //Según el botón, se escoge el tipo de enemigo/zombie que el administrador escogió
         if(btnEnemigoContacto.isSelected()){
             tipo = "ZombieContacto";
         }
@@ -483,12 +508,16 @@ public class ComManGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Seleccione el tipo");
             return;
         }
+        //--------------------------------------------------------------
         
+        //Si todo sale bien, el enemigo será escrito en enemigos.json
         cm.writeEntity(nombre, tipo, path, vida, nivel, golpes, espacios,0);
-        
+        JOptionPane.showMessageDialog(this,"Enemigo agregado");
+        //--------------------------------------------------------------
     }//GEN-LAST:event_btnZombieAceptarActionPerformed
 
     private void btnZombieReiniciarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnZombieReiniciarValoresActionPerformed
+        //Se limpian todos los text fields y botones
         txfEnemigoEspacios.setText("");
         txfEnemigoPath.setText("");
         txfEnemigoNombre.setText("");
@@ -497,17 +526,27 @@ public class ComManGUI extends javax.swing.JFrame {
         txfEnemigoEspacios.setText("");
         txfEnemigoNivel.setText("");
         btnGroupZombieTipo.clearSelection();
+        //--------------------------------------------------------------
     }//GEN-LAST:event_btnZombieReiniciarValoresActionPerformed
 
     private void btnDefensaAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefensaAceptarActionPerformed
+        /*
+        
+        MISMO PROCESO QUE EN EL BOTÓN DE LOS ZOMBIES, SOLO QUE LA DEFENSA SE ESCRIBE EN defensas.json
+        
+        */ 
         String nombre = txfDefensaNombre.getText();;
         String path = txfDefensaPath.getText();
         int vida;
         int golpes;
         int espacios;
         int nivel;
-        String tipo = "";
-        
+        String tipo = ""; 
+        Path pathRoute = Paths.get(path);      
+        if (!(Files.exists(pathRoute))){
+            JOptionPane.showMessageDialog(this,"Dirección de imagen no encontrada");
+            return;
+        }  
         if (isNumeric(txfDefensaEspacios.getText()) == false || isNumeric(txfDefensaGolpes.getText()) == false || isNumeric(txfDefensaNivel.getText()) == false || isNumeric(txfDefensaVida.getText()) == false || "".equals(txfDefensaNombre.getText()) ||"".equals(txfDefensaPath.getText())){
             JOptionPane.showMessageDialog(this,"Los parámetros son inválidos");
             return;
@@ -539,11 +578,12 @@ public class ComManGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this,"Seleccione el tipo");
             return;
         }
-        
         cm.writeEntity(nombre, tipo, path, vida, nivel, golpes, espacios,1);
+        JOptionPane.showMessageDialog(this,"Defensa agregada");
     }//GEN-LAST:event_btnDefensaAceptarActionPerformed
 
     private void btnDefensaReiniciarValoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDefensaReiniciarValoresActionPerformed
+        //Se limpian todos los text fields y botones
         txfDefensaEspacios.setText("");
         txfDefensaPath.setText("");
         txfDefensaNombre.setText("");
@@ -552,11 +592,9 @@ public class ComManGUI extends javax.swing.JFrame {
         txfDefensaEspacios.setText("");
         txfDefensaNivel.setText("");
         btnGroupDefensasTipo.clearSelection();
+        //--------------------------------------------------------------
     }//GEN-LAST:event_btnDefensaReiniciarValoresActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -583,10 +621,8 @@ public class ComManGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ComManGUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ComManGUI().setVisible(true);
         });
     }
 

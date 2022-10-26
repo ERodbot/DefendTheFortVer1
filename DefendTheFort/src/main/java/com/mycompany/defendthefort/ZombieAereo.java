@@ -65,13 +65,13 @@ public class ZombieAereo extends Entity{
         return null;
     }
    
-    @Override
+        @Override
     public void mover(){
         int dify = posx - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         int difx = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         ImageIcon groundIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\ground.png");
         ImageIcon zombieIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\zombies.png");
-        
+                    
         
         if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
             grid.matrix[posy][posx].personaje = null;

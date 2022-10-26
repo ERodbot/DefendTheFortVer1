@@ -30,11 +30,12 @@ import javax.swing.border.Border;
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    public ComponentsManager CM;  
     int level = 0;
     private ArrayList<Grid> levelGrid = new ArrayList<Grid>();
-    private  ArrayList<Entity> defenses = new ArrayList<Entity>();
-    private  ArrayList<Entity> zombies = new ArrayList<Entity>();
-    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
+    public  ArrayList<Entity> defenses = new ArrayList<Entity>();
+    public  ArrayList<Entity> zombies = new ArrayList<Entity>();
+    public  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
     final int ancho = 35, alto = 35;
     
     /**
@@ -42,6 +43,7 @@ public class GameScreen extends javax.swing.JFrame {
      */
     public GameScreen() {
         initComponents();
+        CM = new ComponentsManager(this);
         for(int i = 0; i<10; i++){
             levelGrid.add(new Grid(i+1));
             System.out.println(i+1);
@@ -50,6 +52,7 @@ public class GameScreen extends javax.swing.JFrame {
         initializaPossibleDefenses();
         Dimension preferredSize = new Dimension(293, 720+(120*defenses.size()-720));
         pnlDefenses.setPreferredSize(preferredSize);
+        CM.readToAdd();
         
      
     }
@@ -299,6 +302,9 @@ public class GameScreen extends javax.swing.JFrame {
         }
     }
     
+    public Grid getCurrentLevel(){
+        return levelGrid.get(level);
+    }
     
     
     /**
