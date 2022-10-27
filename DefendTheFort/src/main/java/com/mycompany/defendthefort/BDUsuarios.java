@@ -48,6 +48,8 @@ public class BDUsuarios implements Serializable{
      * @param password
      * @return
      */
+    
+    //Buscar el usuario por ID, retorna si esta en la base de datos
     public boolean buscarUsuario(String ID, String password){
         for (User user : users) {
             if (user.getID().equals(ID) && user.getPassword().equals(password))
@@ -61,6 +63,7 @@ public class BDUsuarios implements Serializable{
      * @param ID
      * @return
      */
+    //obtiene una referencia al usuario buscado por ID
     public User obtenerUsuario(String ID){
         for (User user : users) {
             if (user.getID().equals(ID))
@@ -69,6 +72,8 @@ public class BDUsuarios implements Serializable{
         return null;
     }
     
+    
+    //crea al usuario en la base 
     public void darDeAlta(String ID, String name, String password){
         boolean buscado = buscarUsuario(ID, password);
         if(users == null){

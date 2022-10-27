@@ -27,7 +27,7 @@ public class Grid{
         generarBotones();
     }
     
-     
+    //genera los botones de la matriz tablero
     public void generarBotones(){
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
@@ -35,6 +35,10 @@ public class Grid{
                 matrix[i][j].setLocation(i,j);
                 matrix[i][j].button.setIcon(new ImageIcon("C:\\Images\\grass.png"));
                 matrix[i][j].button.setBorderPainted( false );
+                matrix[i][j].button.setBackground(new Color(22,88,0));
+
+//                
+                
  
 //Pasar esto a una funcion en la pantalla principal;                
 //                pnlPrincipal.add(matrix[i][j].button);
@@ -42,15 +46,14 @@ public class Grid{
 //                matrix[i][j].button.setLocation(i*ancho, alto*j);
             }            
         }
+        ImageIcon grave = ImageManager.resize(matrix[12][12].button, "C:\\Images\\grave.png");
+        matrix[12][12].button.setIcon(grave);
     }
     
-    
+    //toma la lista de posibles zombies, mientras haya capacidad para colocar en el tablero crea nuevos de ellos.
     public void generarZombies(ArrayList<Entity> possibleZombies){
         Random rand = new Random();
-        ImageIcon attacking = ImageManager.resize(matrix[1][0].button, "C:\\Images\\zombies.png");
-        ImageIcon moving = ImageManager.resize(matrix[1][0].button, "C:\\Images\\zombies.png");
-        Entity zombie = new ZombieContacto("ZombieContacto",100,3,1,1,1, this, moving, attacking);
-        while(zombieCapacity > 0){
+        while(zombieCapacity > 0){  //comprobar la capacidad
             int i  = rand.nextInt(0,24);
             int j = rand.nextInt(0,24);
             if(!(i == 0 || i == 24 || j == 0 || j == 24))
@@ -61,7 +64,7 @@ public class Grid{
             if (zombieCapacity == 0)
                 return;
             int zombieToGenerate  = rand.nextInt(possibleZombies.size()-1);
-            zombie = possibleZombies.get(zombieToGenerate).clone();
+            Entity zombie = possibleZombies.get(zombieToGenerate).clone(); //escoge un zombie al azar
 //            if(zombieCapacity - zombie.campos < 0)
 //                break;
             int correctPositions = rand.nextInt(96);
@@ -70,21 +73,21 @@ public class Grid{
                 threadArray.add(matrix[i][j].personaje.thread);
                 zombies.add(matrix[i][j].personaje);
                 try{
-                   ZombieAereo aereo= (ZombieAereo)matrix[i][j].personaje;
+                   ZombieAereo aereo= (ZombieAereo)matrix[i][j].personaje;  //si es volador lo mete en este array tambien;
                    flyingEntities.add((Entity)aereo);
                 }catch(ClassCastException e){
                     System.out.println("");
                     
-                }
+//                }
                 matrix[i][j].personaje.setLocation(i, j);
                 zombieCapacity-=zombie.campos;
             }
-        }
+            }
         
-        
+        } 
     }
 
-    public void actualizeObjectives(){
+    public void actualizeObjectives(){                 //asegura que todas las entidades tengan referencia a las otras en el tablero
         for(Entity defenseEntity: defenses){
             defenseEntity.setFlyingEntities(flyingEntities);
             defenseEntity.setDefenses(defenses);
@@ -105,7 +108,7 @@ public class Grid{
         }
     }
 
-    public void SimulacionCochina(){
+    public void SimulacionCochina(){   //empieza los threads de las entidades del juego
         actualizeObjectives();
         for(ThreadEntity entity: threadArray){
             System.out.println(entity.entity.nombre);

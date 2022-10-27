@@ -23,8 +23,8 @@ public class ImageManager{
     }
     
     
-    public static ImageIcon resize(JComponent component, String filePath){
-        Image img;
+    public static ImageIcon resize(JComponent component, String filePath){ //tomando un componente de referencia, reajusta una 
+        Image img;                                                         //imagen al tamaño de este.
         try {
             img = ImageIO.read(new File(filePath));
              Image dimg = img.getScaledInstance(component.getWidth(), component.getHeight(), Image.SCALE_SMOOTH);

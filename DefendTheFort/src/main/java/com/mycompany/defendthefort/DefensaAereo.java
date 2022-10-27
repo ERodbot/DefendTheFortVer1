@@ -25,30 +25,33 @@ public class DefensaAereo extends Entity{
         
     }
 
-    @Override
+    
+    //busca el objetivo, cuando lo encuentra se mueve hacia el hasta entrar en rango y lo ataca;
     public void atacar() {
         Tile objective = determineObjective();
         if(objective!=null && !this.getFlyingEntities().contains(objective)){
-            if(objective.personaje==null)
-                return;
             objective.personaje.substractLife(cantidadGolpes);
             objective.personaje.getRegister().getAttackers().add(this);
             objective.personaje.getRegister().getDamageReceived().add(this.cantidadGolpes);
             this.getRegister().getAttacked().add(objective.personaje);
             this.getRegister().getDamageDone().add(this.cantidadGolpes);
-            if(objective.personaje.getLife() <= 0)
+            System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.personaje.getLife());
+            if(objective.personaje.getLife() <= 0){
                 objective.personaje.morir();
+                objective.personaje = null;
+            }
         }
-        System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.personaje.getLife());
+       
     }
 
-    @Override
-    public Tile determineObjective() {
+     //dado un rango, busca una casilla en el tablero donde el objetivo no sea nulo, pertenezca al array de enemigos de esa entidad
+    //y retorna esa casilla
+     public Tile determineObjective() {
         for(int i = getLocationY()-range; i<getLocationY()+range+1; i++){
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getZombies().contains(matrix[i][j].personaje)){
+                    if(this.getZombies().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){          
                         return matrix[i][j];
                     }
                 }         
@@ -63,15 +66,17 @@ public class DefensaAereo extends Entity{
     }
 
     @Override
+    
+  //cuando la entidad queda con menos de 0 de vida, pone una tumba y quita su casilla; 
   public void morir() {
        ImageIcon grave;
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
-       System.out.println("me mori xC soy defensa");
+       System.out.println("me mori xC soy defensa: "+ nombre);
        grid.matrix[posy][posx].personaje = null;
     }
 
-    
+    //clona la entidad con sus atributos;
     @Override
     public Entity clone(){
         DefensaBloque clonedEntity =  new DefensaBloque(nombre, vida, nivel, campos, nivelAparicion, grid,  moving, attacking);

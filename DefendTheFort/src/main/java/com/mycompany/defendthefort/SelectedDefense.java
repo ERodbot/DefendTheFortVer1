@@ -22,7 +22,7 @@ public class SelectedDefense {
     private Entity defense;
     private Entity grid;
     
-    
+    //crea un label con la imagen de la defensa y lo coloca en el scroll panel para el usuario poder seleccionarla
     SelectedDefense(Entity entiy, Grid grid){
         String txt = "<html>Nombre: " + entiy.nombre + "<br>Campos: " + entiy.campos + "<br>Vida: " + entiy.vida + "<br>Golpes/ps: " + entiy.cantidadGolpes + "</html>";
         labelDefense = new JLabel(entiy.moving);
@@ -36,6 +36,7 @@ public class SelectedDefense {
         labelDefense.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                    //carga en el tablero una entidad seleccionada al hacerle click
                     grid.setEntityLoaded(entiy);
                     System.out.println("loaded:" + grid.getEntityLoaded().nombre);
                 }

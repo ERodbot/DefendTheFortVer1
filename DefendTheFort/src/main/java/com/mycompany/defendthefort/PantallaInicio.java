@@ -23,7 +23,6 @@ public class PantallaInicio extends javax.swing.JFrame {
      */
     public PantallaInicio() {
         initComponents();
-        setBackground();
     }
 
     /**
@@ -182,7 +181,7 @@ public class PantallaInicio extends javax.swing.JFrame {
 
     private void SignUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpActionPerformed
         
-        if(!login.usuarios.buscarUsuario(txfID.getText(), txfPsw.getText())){
+        if(!login.usuarios.buscarUsuario(txfID.getText(), txfPsw.getText())){ //se crea un nuevo usuario con los datos dados
             if(!txfID.getText().trim().equals("") && !txfNombre.getText().trim().equals("") && !txfPsw.getText().trim().equals("")){
                 login.usuarios.darDeAlta(txfID.getText(), txfNombre.getText(), txfPsw.getText());     
                 User usuario = login.usuarios.obtenerUsuario(txfID.getText());
@@ -235,15 +234,6 @@ public class PantallaInicio extends javax.swing.JFrame {
                 new PantallaInicio().setVisible(true);
             }
         });
-    }
-
-    
-    public void setBackground(){
-        JLabel background;
-        ImageIcon img = new ImageIcon("QATARLOGO.jpg");
-        background = new JLabel("", img, JLabel.CENTER);
-        background.setBounds(0,0, pnlPantallaInicio.getWidth(), pnlPantallaInicio.getHeight());
-        pnlPantallaInicio.add(background);
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -20,25 +20,24 @@ public class ThreadEntity extends Thread {
     ThreadEntity(Entity entity,Grid tablero){
         this.entity = entity;
         this.grid = tablero;
+        entity.getGrid().getMatrix()[entity.posy][entity.posx].button.setIcon(entity.moving);
     }
     
     @Override
-    public void run(){
-        entity.getGrid().getMatrix()[entity.posy][entity.posx].button.setIcon(entity.moving);
-        System.out.println(entity.nombre);
-        while(entity.getLife() > 0){
+    public void run(){             //si encuentra una entidad para de moverse hasta matarla/morir a manos de ella, sino, se mueve
+        while(entity.vida > 0){  
             try {
-                sleep(1000);
+                sleep(1700);
+//                System.out.println(entity.vida + "---" + entity.nombre);
                 if (entity.determineObjective() != null){
-                    while(entity.determineObjective()!=null && entity.determineObjective().personaje.getLife() >0){
-//                        System.out.println(entity.nombre + " esta atacando");
+                    entity.getGrid().getMatrix()[entity.posy][entity.posx].button.setIcon(entity.attacking);
+                    while(entity.determineObjective()!=null && entity.determineObjective().personaje.getLife()>0){
                         entity.atacar();
                         sleep(1000);
+                        }
                     }
-//                    System.out.println(entity.nombre + " deberia dejar de atacar");
-                }
-//                System.out.println(entity.nombre + "moviendose");
-                entity.mover(); 
+                if(entity.vida>0)
+                    entity.mover(); 
             } catch (InterruptedException ex) {
                 Logger.getLogger(ThreadEntity.class.getName()).log(Level.SEVERE, null, ex);
             }   

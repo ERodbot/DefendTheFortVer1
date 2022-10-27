@@ -7,14 +7,14 @@ public abstract class Entity {
     public String nombre;
     public int vida;
     public int cantidadGolpes, nivel, campos, nivelAparicion, posx, posy;   
-    public Grid grid;
-    private  ArrayList<Entity> zombies = new ArrayList();
-    private  ArrayList<Entity> defenses = new ArrayList();
-    private  ArrayList<Entity> flyingEntities = new ArrayList();
-    private Registro register = new Registro(this);
-    public ThreadEntity thread;
-    ImageIcon moving;
-    ImageIcon attacking;
+    public Grid grid;  //una referencia al tablero donde debe ponerse la entidad
+    private  ArrayList<Entity> zombies = new ArrayList();  //un array de los zombies en el tablero
+    private  ArrayList<Entity> defenses = new ArrayList(); //un array de las defensas en el tablero
+    private  ArrayList<Entity> flyingEntities = new ArrayList(); //un array de las entidades voladoras en el tablero
+    private Registro register = new Registro(this); //una clase registro para guardar los ataques recbidos/propiciados;
+    public ThreadEntity thread; //el thread para cada zombie 
+    ImageIcon moving; //imagen de la entidad en movimiento
+    ImageIcon attacking; //imagen de la entidad atacando
             
     
 
@@ -31,7 +31,6 @@ public abstract class Entity {
         this.grid = grid;
         this.moving = movementfilePath;
         this.attacking = attackfilePath;
-        ImageIcon attacking;
         this.thread = new ThreadEntity(this,grid);
     }
     public abstract void mover();
@@ -40,6 +39,8 @@ public abstract class Entity {
     @Override
     public abstract Entity clone();
    
+    
+    //establece la posicion de la entididad en el tablero;
     public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;

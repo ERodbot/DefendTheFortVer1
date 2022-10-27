@@ -13,12 +13,12 @@ import java.util.Random;
  */
 public class Registro {
     String ID;
-    private  ArrayList<Entity> attackers = new ArrayList();
-    private ArrayList damageReceived = new ArrayList();
+    private  ArrayList<Entity> attackers = new ArrayList();  //arrays de entidades que atacaron/fueron atacadas por la entidad
+    private ArrayList damageReceived = new ArrayList();      //con el ataque que les corresponde
     private  ArrayList<Entity> attacked = new ArrayList();
     private ArrayList damageDone = new ArrayList();
     private Entity entity;
-    private final int startingLife;
+    private final int startingLife;                          //registros de la vida inicial y final de la entidad en una partida
     private int finalLife;
     
     

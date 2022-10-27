@@ -40,6 +40,7 @@ public class ZombieContacto extends Entity{
         if(objective == null)
             return;
         if(objective!=null && !this.getFlyingEntities().contains(objective.personaje)){
+            grid.matrix[posy][posx].button.setIcon(attacking);
             objective.personaje.substractLife(cantidadGolpes);
             objective.personaje.getRegister().getAttackers().add(this);
             objective.personaje.getRegister().getDamageReceived().add(this.cantidadGolpes);
@@ -58,7 +59,7 @@ public class ZombieContacto extends Entity{
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getDefenses().contains(matrix[i][j].personaje)){
+                    if(this.getDefenses().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){
                         return matrix[i][j];
                     }
                 }         
@@ -66,67 +67,90 @@ public class ZombieContacto extends Entity{
         }
         return null;
     }
-   
-    @Override
+     @Override
     public void mover(){
         int dify = posx - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         int difx = posy - 12; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
-        ImageIcon groundIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\ground.png");
-        ImageIcon zombieIcon = ImageManager.resize(grid.matrix[posx][posy].button, "C:\\Images\\zombies.png");
+        ImageIcon grassIcon = new ImageIcon("C:\\Images\\grass.png");
+        ImageIcon zombieIcon = moving;
         
         
         if ( difx < 0 && dify < 0){ //diagonal izquierda abajo (movimiento hacia)
+            if(grid.matrix[1+posy][1+posx].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[++posy][++posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(attacking) ; 
             return;
         }
         if ( difx < 0 && dify > 0){ //diagonal derecha abajo
+            if(grid.matrix[1+posy][posx-1].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[++posy][--posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify < 0){ //diagonal izquierda arriba
+            if(grid.matrix[posy-1][posx+1].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[--posy][++posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify > 0){ //diagonal derecha arriba
+            if(grid.matrix[posy-1][posx-1].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[--posy][--posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ; 
             return;
         }
         if ( difx == 0 && dify < 0){ //abajo
+            if(grid.matrix[posy][posx+1].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ; 
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ; 
             grid.matrix[posy][++posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx == 0 && dify > 0){ //arriba
+            if(grid.matrix[posy][posx-1].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[posy][--posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx < 0 && dify == 0){ //izquierda
+            if(grid.matrix[posy+1][posx].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[++posy][posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;
         }
         if ( difx > 0 && dify == 0){ //derecha
+            if(grid.matrix[posy-1][posx].personaje !=null){
+                return;
+            }
             grid.matrix[posy][posx].personaje = null;
-            grid.matrix[posy][posx].button.setIcon(groundIcon) ;
+            grid.matrix[posy][posx].button.setIcon(grassIcon) ;
             grid.matrix[--posy][posx].personaje = this;
             grid.matrix[posy][posx].button.setIcon(zombieIcon) ;
             return;

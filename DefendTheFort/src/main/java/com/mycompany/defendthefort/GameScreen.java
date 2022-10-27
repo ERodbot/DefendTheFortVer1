@@ -8,7 +8,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import static javax.swing.SwingConstants.LEFT;
 import javax.swing.border.Border;
 
@@ -30,26 +35,38 @@ import javax.swing.border.Border;
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    public ComponentsManager CM;   //sistema de manejo de la creacion de los personajes;
     int level = 0;
-    private ArrayList<Grid> levelGrid = new ArrayList<Grid>();
-    private  ArrayList<Entity> defenses = new ArrayList<Entity>();
-    private  ArrayList<Entity> zombies = new ArrayList<Entity>();
-    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
+    private ArrayList<Grid> levelGrid = new ArrayList<Grid>(); //array de los tableros para cada partida;
+    private  ArrayList<Entity> defenses = new ArrayList<Entity>(); //array de las posibles defensas para cada partidoa;
+    private  ArrayList<Entity> zombies = new ArrayList<Entity>(); //array de los posibles zombies para cada partidoa;
+    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>(); //array de las posibles entidades voladoras para cada partidoa;
     final int ancho = 35, alto = 35;
+    
+    
     
     /**
      * Creates new form GameScreen
      */
     public GameScreen() {
         initComponents();
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        jLabel2.setIcon(new ImageIcon("C:\\Images\\ZombieApocalypseTitleScreen.png"));
+        Image image = toolkit.getImage("C:\\Images\\ZombieHandPng.png");
+        addMauseListenerTonitializelbl();
+        Cursor c = toolkit.createCustomCursor(image , new Point(pnlContent.getX(), 
+        pnlContent.getY()), "img");
+        pnlContent.setCursor (c);
+        CM = new ComponentsManager(this);
         for(int i = 0; i<10; i++){
             levelGrid.add(new Grid(i+1));
             System.out.println(i+1);
         }
         initializaPossibleZombies();
         initializaPossibleDefenses();
-        Dimension preferredSize = new Dimension(293, 720+(120*defenses.size()-720));
-        pnlDefenses.setPreferredSize(preferredSize);
+        Dimension preferredSize = new Dimension(293, 720+(120*defenses.size()-720)); //ajustar el tamaño de la interfaz de
+        CM.readToAdd();                                                                   //seleccion de defensas
+        pnlDefenses.setPreferredSize(preferredSize);                
         
      
     }
@@ -67,14 +84,15 @@ public class GameScreen extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         tpnlContent = new javax.swing.JTabbedPane();
         pnlInitialScreen = new javax.swing.JPanel();
-        btnInitializeGmae = new javax.swing.JButton();
+        lblInitializeGame = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         pnlGame = new javax.swing.JPanel();
         scrollDefenses = new javax.swing.JScrollPane();
         pnlDefenses = new javax.swing.JPanel();
         btnStart = new javax.swing.JButton();
         btnPause = new javax.swing.JButton();
         btnOpciones = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        lblGameGrid = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1200, 1200));
@@ -96,29 +114,14 @@ public class GameScreen extends javax.swing.JFrame {
 
         pnlContent.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 30));
 
-        btnInitializeGmae.setText("Empezar Partida");
-        btnInitializeGmae.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInitializeGmaeActionPerformed(evt);
-            }
-        });
+        pnlInitialScreen.setPreferredSize(new java.awt.Dimension(800, 1300));
+        pnlInitialScreen.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout pnlInitialScreenLayout = new javax.swing.GroupLayout(pnlInitialScreen);
-        pnlInitialScreen.setLayout(pnlInitialScreenLayout);
-        pnlInitialScreenLayout.setHorizontalGroup(
-            pnlInitialScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInitialScreenLayout.createSequentialGroup()
-                .addGap(387, 387, 387)
-                .addComponent(btnInitializeGmae, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(641, Short.MAX_VALUE))
-        );
-        pnlInitialScreenLayout.setVerticalGroup(
-            pnlInitialScreenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlInitialScreenLayout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addComponent(btnInitializeGmae, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1442, Short.MAX_VALUE))
-        );
+        lblInitializeGame.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        lblInitializeGame.setForeground(new java.awt.Color(255, 255, 255));
+        lblInitializeGame.setText("Iniciar Partida");
+        pnlInitialScreen.add(lblInitializeGame, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 500, 210, 80));
+        pnlInitialScreen.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 760));
 
         tpnlContent.addTab("tab1", pnlInitialScreen);
 
@@ -150,47 +153,40 @@ public class GameScreen extends javax.swing.JFrame {
 
         btnOpciones.setText("OPCIONES");
 
+        lblGameGrid.setText("jLabel1");
+
         javax.swing.GroupLayout pnlGameLayout = new javax.swing.GroupLayout(pnlGame);
         pnlGame.setLayout(pnlGameLayout);
         pnlGameLayout.setHorizontalGroup(
             pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGameLayout.createSequentialGroup()
-                .addContainerGap(891, Short.MAX_VALUE)
-                .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnPause, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnStart, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(scrollDefenses, javax.swing.GroupLayout.Alignment.TRAILING)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGap(614, 614, 614)
+                .addComponent(lblGameGrid)
+                .addGap(651, 651, 651))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGameLayout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(scrollDefenses, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                .addGap(117, 117, 117))
         );
         pnlGameLayout.setVerticalGroup(
             pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGameLayout.createSequentialGroup()
                 .addComponent(scrollDefenses, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(20, 20, 20)
                 .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnPause, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1032, Short.MAX_VALUE))
+                .addGap(343, 343, 343)
+                .addComponent(lblGameGrid))
         );
 
         tpnlContent.addTab("tab2", pnlGame);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1679, Short.MAX_VALUE)
-        );
-
-        tpnlContent.addTab("tab3", jPanel1);
 
         pnlContent.add(tpnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1200, 1710));
 
@@ -209,78 +205,132 @@ public class GameScreen extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    
-
-    
-    
-    private void btnInitializeGmaeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInitializeGmaeActionPerformed
-        // TODO add your handling code here:
-        Grid currentLevel = levelGrid.get(level);
-        addPosibleDefensesScreen();
-        placeButtons(currentLevel.getMatrix());
-        tpnlContent.setSelectedIndex(1);
-    }//GEN-LAST:event_btnInitializeGmaeActionPerformed
-
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
         Grid currentLevel = levelGrid.get(level);
-        currentLevel.generarZombies(zombies);
-        currentLevel.SimulacionCochina();
-        
+        currentLevel.generarZombies(zombies);  //genera los zombies al azar y los coloca en el tablero de modo random
+        currentLevel.SimulacionCochina(); //empieza los threads para todas las entidades
+
     }//GEN-LAST:event_btnStartActionPerformed
 
     
+    
+    void addMauseListenerTonitializelbl(){
+        lblInitializeGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                    Grid currentLevel = levelGrid.get(level);
+                    addPosibleDefensesScreen();  //añade las defensas en la pantalla  para ponerlos en el tablero
+                    placeButtons(currentLevel.getMatrix());
+                    tpnlContent.setSelectedIndex(1);
+                }
+
+        }); 
+        lblInitializeGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                    lblInitializeGame.setForeground(Color.red.darker().darker());
+                }
+
+        });
+        lblInitializeGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseExited(MouseEvent e) {
+                    lblInitializeGame.setForeground(Color.white);
+                }
+
+        }); 
+    }
+    
+        
+    
+    
     public void initializaPossibleZombies(){
         Grid currentGrid = levelGrid.get(level);
-        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\zombies.png");
-        ImageIcon moving = attacking;
-        System.out.println("hello");
-        Entity zombieContacto = new ZombieContacto("ZombieContacto",100,10,1,5,1, currentGrid, moving, attacking);
-        Entity zombieContactoFuerte = new ZombieContacto("zombieContactoFuerte",200,20,1,5,1, currentGrid, moving, attacking);
-        Entity zombieChoque = new ZombieChoque("zombieChoque",150,15,1,5,1, currentGrid, moving, attacking);
-        Entity zombieMedio = new ZombieMedio("zombieMedio",100,15,1,2,1, currentGrid, moving, attacking);
-        Entity zombieMedioConEsteroides = new ZombieContacto("zombieMedioConEsteroides",100,10,1,4,1, currentGrid, moving, attacking);
-        Entity zombieAereo = new ZombieAereo("zombieAereo",30,20,1,3,1, currentGrid, moving, attacking);
-        Entity zombieAereo2 = new ZombieAereo("zombieAereo2",90,25,1,3,1, currentGrid, moving, attacking);
-        zombies.add(zombieContacto);
-        zombies.add(zombieContactoFuerte);
-        zombies.add(zombieChoque);
-        zombies.add(zombieMedio);
-        zombies.add(zombieMedioConEsteroides);
-        zombies.add(zombieAereo);
-        zombies.add(zombieAereo2);
-              
+        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ZombieNormal.png");
+        ImageIcon moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ZombieNormal.png");
+        Entity zombieContactoBasico = new ZombieContacto("Zombie Basico",100,5,1,5,1, currentGrid, moving, attacking);
+        zombies.add(zombieContactoBasico);
+        
+        attacking = new ImageIcon("C:\\Images\\BloodZombie.gif");
+        moving = new ImageIcon("C:\\Images\\BloodZombie.gif");
+        Entity ZombieSangriento= new ZombieContacto("Zombie Sangriento",100,10,1,5,1, currentGrid, moving, attacking);
+        zombies.add(ZombieSangriento);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ExplodingZombie.png");
+        attacking = new ImageIcon( "C:\\Images\\explosion.gif");
+        Entity ZombieExplosivo = new ZombieChoque("Zombie Explosivo",150,15,1,5,1, currentGrid, moving, attacking);
+        zombies.add(ZombieExplosivo);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
+        Entity OjoDelDiablo = new ZombieMedio("OjoDelDiablo",100,15,1,2,1, currentGrid, moving, attacking);
+        zombies.add(OjoDelDiablo);
+        
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PistolZombie.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PistolZombieAttacking.png");
+        Entity ZombiePistolero = new ZombieMedio("Zombie Pistolero",100,10,1,4,1, currentGrid, moving, attacking);
+        zombies.add(ZombiePistolero);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\BalloonZombieHD.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\FlyingZombieAttacking.png");
+        Entity BalloonZombie = new ZombieAereo("Zombie con globo",30,20,1,3,1, currentGrid, moving, attacking);
+        zombies.add(BalloonZombie);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ImpRocket.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\explosion2.png");
+        Entity ImpRocket = new ZombieContacto("Imp con Coete",90,25,1,3,1, currentGrid, moving, attacking);
+        zombies.add(ImpRocket);         
     }
     
     public void initializaPossibleDefenses(){
         Grid currentGrid = levelGrid.get(level);
-        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\zombies.png");
-        ImageIcon moving = attacking;
-        System.out.println("hello");
-        Entity DefensaAereo = new DefensaAereo("DefensaAerea",100,10,1,2,1, currentGrid, moving, attacking);
-        Entity DefensaContactoFuerte = new DefensaContacto("DefensaContactoFuerte",150,20,1,0,1, currentGrid, moving, attacking);
-        Entity DefensaContacto = new DefensaContacto("DefensaContacto",150,10,1,1,1, currentGrid, moving, attacking);
-        Entity DefensaMedio = new DefensaBloque("DefensaMedio",100,3,1,1,currentGrid, moving, attacking);
-        Entity DefensaMedioConEsteroides = new DefensaMedio("DefensaMedioConEsteroides",100,10,1,5,1, currentGrid, moving, attacking);
-        Entity DefensaAereo2 = new DefensaAereo("DefensaAereo2",30,5,1,5,1, currentGrid, moving, attacking);
-        Entity DefensaBloque = new DefensaBloque("DefensaBloque",150,1,4,1, currentGrid, moving, attacking);
-        defenses.add(DefensaAereo);
-        defenses.add(DefensaContactoFuerte);
-        defenses.add(DefensaContacto);
-        defenses.add(DefensaMedio);
-        defenses.add(DefensaMedioConEsteroides);
-        defenses.add(DefensaAereo2);
-        defenses.add(DefensaBloque);
-              
+        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
+        ImageIcon moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
+        Entity BonkChoy = new DefensaContacto("Bonk Choy",100,5,1,5,1, currentGrid, moving, attacking);
+        defenses.add(BonkChoy);
+        
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\gloomshroomattacking.png");
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\gloomshroom.png");
+        Entity gloomshroom= new DefensaMultiple("gloomshroom",100,10,1,5,1, currentGrid, moving, attacking);
+        defenses.add(gloomshroom);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\peashooter.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\peashooter.png");
+        Entity peashooter = new DefensaMultiple("peashooter",150,15,1,5,1, currentGrid, moving, attacking);
+        defenses.add(peashooter);
+        
+//        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
+//        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
+//        Entity squash = new DefensaChoque("Squash",100,15,1,2,1, currentGrid, moving, attacking);
+//        defenses.add(OjoDelDiablo);
+        
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\Chomper.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\chopperEating.png");
+        Entity Chopper = new DefensaContacto("Chopper",100,10,1,4,1, currentGrid, moving, attacking);
+        defenses.add(Chopper);
+        
+        moving =new ImageIcon("C:\\Images\\lol.gif");
+        attacking = new ImageIcon("C:\\Images\\lol.gif");
+        Entity starfruit = new DefensaMultiple("Zombie con globo",30,20,1,3,1, currentGrid, moving, attacking);
+        defenses.add(starfruit);
+        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\block.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\block.png");
+        Entity Bloque = new DefensaBloque("Imp con Coete",90,1,3,1, currentGrid, moving, attacking);
+        defenses.add(Bloque);         
+    
     }
     
     
-    public void addPosibleDefensesScreen(){
+    public void addPosibleDefensesScreen(){  //recorre el array de posibles defensas, crea una interfaz bonita para ponerla en pantalla
         Grid currentLevel = levelGrid.get(level);
         for(int i = 0; i<defenses.size();i++){
            Entity EntityDefense = defenses.get(i);
-           SelectedDefense defense = new SelectedDefense(EntityDefense, currentLevel);
-           JLabel lbldefense = defense.getLabelDefense();
+           SelectedDefense defense = new SelectedDefense(EntityDefense, currentLevel); //clase con label y referencia a 
+           JLabel lbldefense = defense.getLabelDefense();                                        //una entidad
            pnlDefenses.add(lbldefense);
            int posy = i*lbldefense.getHeight();
            lbldefense.setLocation(0, posy);
@@ -289,7 +339,7 @@ public class GameScreen extends javax.swing.JFrame {
     
     
     
-    public void placeButtons(Tile[][] matrix){
+    public void placeButtons(Tile[][] matrix){  //coloca en la pantalla los botones de una partida,
         for (int i = 0; i < 25; i++) {
             for (int j = 0; j < 25; j++) {
                 pnlGame.add(matrix[i][j].button, 2);
@@ -297,6 +347,86 @@ public class GameScreen extends javax.swing.JFrame {
                 matrix[i][j].button.setLocation(i*ancho, alto*j);
             }
         }
+    }
+    
+    public Grid getCurrentLevel(){
+        return levelGrid.get(level);
+    }
+
+    public ComponentsManager getCM() {
+        return CM;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public ArrayList<Grid> getLevelGrid() {
+        return levelGrid;
+    }
+
+    public ArrayList<Entity> getDefenses() {
+        return defenses;
+    }
+
+    public ArrayList<Entity> getZombies() {
+        return zombies;
+    }
+
+    public ArrayList<Entity> getFlyingEntities() {
+        return flyingEntities;
+    }
+
+    public int getAncho() {
+        return ancho;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
+
+ 
+
+    public JButton getBtnOpciones() {
+        return btnOpciones;
+    }
+
+    public JButton getBtnPause() {
+        return btnPause;
+    }
+
+    public JButton getBtnStart() {
+        return btnStart;
+    }
+
+   
+
+    public JPanel getjPanel2() {
+        return jPanel2;
+    }
+
+    public JPanel getPnlContent() {
+        return pnlContent;
+    }
+
+    public JPanel getPnlDefenses() {
+        return pnlDefenses;
+    }
+
+    public JPanel getPnlGame() {
+        return pnlGame;
+    }
+
+    public JPanel getPnlInitialScreen() {
+        return pnlInitialScreen;
+    }
+
+    public JScrollPane getScrollDefenses() {
+        return scrollDefenses;
+    }
+
+    public JTabbedPane getTpnlContent() {
+        return tpnlContent;
     }
     
     
@@ -337,12 +467,13 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInitializeGmae;
     private javax.swing.JButton btnOpciones;
     private javax.swing.JButton btnPause;
     private javax.swing.JButton btnStart;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JLabel lblGameGrid;
+    private javax.swing.JLabel lblInitializeGame;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlDefenses;
     private javax.swing.JPanel pnlGame;

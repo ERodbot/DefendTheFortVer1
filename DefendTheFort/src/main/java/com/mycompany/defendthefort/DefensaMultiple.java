@@ -36,17 +36,17 @@ public class DefensaMultiple extends Entity{
             this.getRegister().getDamageDone().add(this.cantidadGolpes);
             if(objective.personaje.getLife() <= 0)
                 objective.personaje.morir();
+                objective.personaje = null;
         }
         System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.personaje.getLife());
     }
 
-    @Override
-    public Tile determineObjective() {
+      public Tile determineObjective() {
         for(int i = getLocationY()-range; i<getLocationY()+range+1; i++){
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getZombies().contains(matrix[i][j].personaje)){
+                    if(this.getZombies().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){
                         return matrix[i][j];
                     }
                 }         
@@ -67,7 +67,7 @@ public class DefensaMultiple extends Entity{
        ImageIcon grave;
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
-       System.out.println("me mori xC soy defensa");
+       System.out.println("me mori xC soy defensa: "+ nombre);
        grid.matrix[posy][posx].personaje = null;
     }
 
