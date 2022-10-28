@@ -62,10 +62,11 @@ public class GameScreen extends javax.swing.JFrame {
             levelGrid.add(new Grid(i+1));
             System.out.println(i+1);
         }
+        CM.readToAdd();  
         initializaPossibleZombies();
         initializaPossibleDefenses();
         Dimension preferredSize = new Dimension(293, 720+(120*defenses.size()-720)); //ajustar el tamaño de la interfaz de
-        CM.readToAdd();                                                                   //seleccion de defensas
+                                                                         //seleccion de defensas
         pnlDefenses.setPreferredSize(preferredSize);                
         
      
