@@ -13,7 +13,6 @@ public abstract class Entity {
     private  ArrayList<Entity> defenses = new ArrayList(); //un array de las defensas en el tablero
     private  ArrayList<Entity> flyingEntities = new ArrayList(); //un array de las entidades voladoras en el tablero
     private Registro register = new Registro(this); //una clase registro para guardar los ataques recbidos/propiciados;
-    public ThreadEntity thread; //el thread para cada zombie 
     ImageIcon moving; //imagen de la entidad en movimiento
     ImageIcon attacking; //imagen de la entidad atacando
             
@@ -32,13 +31,11 @@ public abstract class Entity {
         this.grid = grid;
         this.moving = movementfilePath;
         this.attacking = attackfilePath;
-        this.thread = new ThreadEntity(this,grid);
+        
     }
     
     
      public void mover(int x, int y){
-         if(vida <=0)
-            return;
         int dify = posx - x; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         int difx = posy - y; //13 POSICION DEL ARBOL DE LA VIDA (-1 por el index empezado en 0)
         ImageIcon grassIcon = ImageManager.resize(grid.matrix[1+posy][1+posx].button, "C:\\Images\\grass.png");
@@ -127,12 +124,12 @@ public abstract class Entity {
         }   
     }
 
-    public Entity determineObjective(int range) {
+    public  Entity determineObjective(int range) {
         for(int i = getLocationY()-range; i<getLocationY()+range+1; i++){
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getZombies().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){
+                    if(this.getZombies().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() > 0){
                        
                         return matrix[i][j].personaje;
                     }

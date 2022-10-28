@@ -29,23 +29,25 @@ public class DefensaAereo extends Entity{
     //busca el objetivo, cuando lo encuentra se mueve hacia el hasta entrar en rango y lo ataca;
     @Override
     public void atacar() {
+        Entity objectivePos = determineObjective(15);
+        mover(objectivePos.posy, objectivePos.posx);
         Entity objective = determineObjective(getRange());
-        if(objective!=null && !this.getFlyingEntities().contains(objective)){
+        if(objective!=null && objective==objectivePos){
             objective.substractLife(cantidadGolpes);
-            objective.getRegister().getAttackers().add(this);
-            objective.getRegister().getDamageReceived().add(this.cantidadGolpes);
-            this.getRegister().getAttacked().add(objective);
-            this.getRegister().getDamageDone().add(this.cantidadGolpes);
-            System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife());
+//            objective.getRegister().getAttackers().add(this);
+//            objective.getRegister().getDamageReceived().add(this.cantidadGolpes);
+//            this.getRegister().getAttacked().add(objective);
+//            this.getRegister().getDamageDone().add(this.cantidadGolpes);
+            System.out.println(nombre + " ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife() + "teniendo el vida: " + vida);
             if(objective.getLife() <= 0){
-                objective.thread.isrunning = false;
                 objective.morir();
                 objective = null;
             }
         }
        
     }
-       
+    
+    
 
     @Override
     
@@ -55,7 +57,8 @@ public class DefensaAereo extends Entity{
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
        System.out.println("me mori xC soy defensa: "+ nombre);
-       this.thread.isrunning = false;
+       System.out.println("me mori xC soy defensa: "+ nombre);
+       setLife(0);
        grid.matrix[posy][posx].personaje = null;
        
     }

@@ -27,8 +27,9 @@ public class ZombieMedio extends Entity{
        ImageIcon grave;
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
-       System.out.println("me mori xC soy zombie");
-       this.thread.isrunning = false;
+       System.out.println("me mori xC soy zombie: " + nombre);
+       grid.getZombies().remove(this);
+       setLife(0);
        grid.matrix[posy][posx].personaje = null;
        
     }
@@ -37,16 +38,13 @@ public class ZombieMedio extends Entity{
         Entity objective = determineObjective(getRange());
         grid.matrix[posy][posx].button.setIcon(attacking);
         if(objective!=null && !this.getFlyingEntities().contains(objective)){
-            
-            if(objective==null)
-                return;
             objective.substractLife(cantidadGolpes);
             objective.getRegister().getAttackers().add(this);
             objective.getRegister().getDamageReceived().add(this.cantidadGolpes);
             this.getRegister().getAttacked().add(objective);
             this.getRegister().getDamageDone().add(this.cantidadGolpes);
+            System.out.println(nombre + " ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife() + "teniendo el vida: " + vida);
             if(objective.getLife() <= 0){
-                objective.thread.isrunning = false;
                 objective.morir();
                 objective = null;
             }    
@@ -59,7 +57,7 @@ public class ZombieMedio extends Entity{
             for(int j = getLocationX()-range; j<this.getLocationX()+range+1; j++){
                 Tile[][] matrix = this.getGrid().getMatrix();
                 if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
-                    if(this.getDefenses().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){
+                    if(matrix[i][j].personaje!=null && this.getDefenses().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() > 0){
                         return matrix[i][j].personaje;
                     }
                 }         
