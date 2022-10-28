@@ -6,6 +6,7 @@ package com.mycompany.defendthefort;
 import com.mycompany.defendthefort.Entity;
 import com.mycompany.defendthefort.Grid;
 import com.mycompany.defendthefort.Tile;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,26 +16,44 @@ import javax.swing.ImageIcon;
 public class DefensaMultiple extends Entity{
     
     
-    private final int range = 3;
+    
     
     DefensaMultiple(String nombre, int vida, int cantidadGolpes, int nivel, int campos, int nivelAparicion, Grid grid,  ImageIcon movementfilePath, ImageIcon attackfilePath){
         super(nombre,vida,cantidadGolpes,nivel,campos,nivelAparicion, grid, movementfilePath, movementfilePath); 
+        setRange(3);
     }
 
     
+    public ArrayList<Entity> determineObjectives(int range){
+        ArrayList<Entity> objectives = new  ArrayList<Entity>();
+        for(int i = getLocationY()-getRange(); i<getLocationY()+getRange()+1; i++){
+            for(int j = getLocationX()-getRange(); j<this.getLocationX()+getRange()+1; j++){
+                Tile[][] matrix = this.getGrid().getMatrix();
+                if(i<matrix.length && i>=0 && j<matrix[0].length && j>=0 && matrix[i][j].personaje!=null){  
+                    if(this.getZombies().contains(matrix[i][j].personaje) && matrix[i][j].personaje.getLife() >= 0){                     
+                        objectives.add(matrix[i][j].personaje);
+                    }
+                }         
+            }
+        }
+        return objectives;
+    }
     
     @Override
-    public void atacar() {
-        Entity objective = determineObjective(getRange());
-        if(objective!=null && !this.getFlyingEntities().contains(objective)){
+    public void atacar() { 
+        ArrayList<Entity> objectives = determineObjectives(getRange());
+        if(objectives.size()<0)
+            return;
+        for(Entity objective: objectives){
+            if(objective==null)
+                continue;
             objective.substractLife(cantidadGolpes);
             objective.getRegister().getAttackers().add(this);
             objective.getRegister().getDamageReceived().add(this.cantidadGolpes);
             this.getRegister().getAttacked().add(objective);
             this.getRegister().getDamageDone().add(this.cantidadGolpes);
-            System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife());
+            System.out.println(nombre + " ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife() + "teniendo el vida: " + vida);
             if(objective.getLife() <= 0){
-                objective.thread.isrunning = false;
                 objective.morir();
                 objective = null;
             }
@@ -49,7 +68,8 @@ public class DefensaMultiple extends Entity{
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
        System.out.println("me mori xC soy defensa: "+ nombre);
-       this.thread.isrunning = false;
+       System.out.println("me mori xC soy defensa: "+ nombre);
+       setLife(0);
        grid.matrix[posy][posx].personaje = null;
     }
 
@@ -59,10 +79,7 @@ public class DefensaMultiple extends Entity{
         DefensaMultiple clonedEntity =  new DefensaMultiple(nombre, vida, cantidadGolpes, nivel, campos, nivelAparicion, grid,  moving, attacking);
         return clonedEntity;
     }
-    
-    public int getRange() {
-        return range;
-    }
+
         
    
 }

@@ -10,23 +10,32 @@ import javax.swing.ImageIcon;
 public class Grid{
 
     public int nivel;
-    public final Tile[][] matrix = new Tile[25][25];
+    public Tile[][] matrix;
     private final int ancho = 35,  alto = 35;
     public int zombieCapacity = 20 + (nivel-1)*5;
     private int defenseCapacity = 20 + (nivel-1)*5;
-    private  ArrayList<Entity> zombies = new ArrayList<Entity>();
-    private  ArrayList<Entity> defenses = new ArrayList<Entity>();
-    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>();
+    private  ArrayList<Entity> zombies;
+    private  ArrayList<Entity> defenses;
+    private  ArrayList<Entity> flyingEntities;
     private ArrayList<ThreadEntity> threadArray = new ArrayList();
     private Entity entityLoaded;
 
 
      public Grid(int level){
-        generarBotones();
+        
+        generateComponents();
         this.nivel = level+1;
-        generarBotones();
     }
     
+     
+   public void generateComponents(){
+       matrix = new Tile[25][25];
+       generarBotones();
+       zombies = new ArrayList<Entity>();
+       defenses = new ArrayList<Entity>();
+       flyingEntities = new ArrayList<Entity>();
+   }
+   
     //genera los botones de la matriz tablero
     public void generarBotones(){
         JButton base = new JButton();
@@ -73,7 +82,7 @@ public class Grid{
             int correctPositions = rand.nextInt(96);
             if (correctPositions == 10||correctPositions == 9||correctPositions == 8||correctPositions == 7 ||correctPositions == 6 ||correctPositions == 5||correctPositions == 4||correctPositions == 3){
                 matrix[i][j].personaje = zombie;
-                threadArray.add(matrix[i][j].personaje.thread);
+                threadArray.add(new ThreadEntity(matrix[i][j].personaje, this));
                 zombies.add(matrix[i][j].personaje);
                 try{
                    ZombieAereo aereo= (ZombieAereo)matrix[i][j].personaje;  //si es volador lo mete en este array tambien;
@@ -110,6 +119,19 @@ public class Grid{
             flyingEntity.setZombies(zombies);
         }
     }
+    
+    
+    public Tile getTreeOfLife() {
+        for (int column  = 0; column < 25; column++) {
+            for (int row = 0; row < 25; row++) {
+                if(matrix[column][row].personaje!= null && matrix[column][row].personaje.nombre.contains("Arbol de la vida")){
+                    return(matrix[column][row]);
+                }
+            }
+        }
+        return null;        
+    }
+    
 
     public void SimulacionCochina(){   //empieza los threads de las entidades del juego
         actualizeObjectives();
@@ -120,7 +142,14 @@ public class Grid{
             for(ThreadEntity entity: threadArray)
                entity.start();
     }   
-            
+    
+    
+    public void endGame() {
+        for(ThreadEntity thread: threadArray){
+            thread.entity.morir();
+        }
+        generateComponents();    
+    }
             
     public void setThreadArray(ArrayList<ThreadEntity> threadArray) {
         this.threadArray = threadArray;
@@ -197,7 +226,8 @@ public class Grid{
     public void setDefenseCapacity(int defenseCapacity) {
         this.defenseCapacity = defenseCapacity;
     }
-    
+
+   
 
 
 

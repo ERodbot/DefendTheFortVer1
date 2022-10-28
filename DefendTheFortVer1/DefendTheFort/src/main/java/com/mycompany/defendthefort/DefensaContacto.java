@@ -33,9 +33,8 @@ public class DefensaContacto extends Entity{
             objective.getRegister().getDamageReceived().add(this.cantidadGolpes);
             this.getRegister().getAttacked().add(objective);
             this.getRegister().getDamageDone().add(this.cantidadGolpes);
-            System.out.println("ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife());
+            System.out.println(nombre + " ataco con" + cantidadGolpes + "dejando al objetivo con vida: " + objective.getLife() + "teniendo el vida: " + vida);
             if(objective.getLife() <= 0){
-                objective.thread.isrunning = false;
                 objective.morir();
                 objective = null;
             }
@@ -48,7 +47,7 @@ public class DefensaContacto extends Entity{
        grave = ImageManager.resize(grid.matrix[posy][posx].button, "C:\\Images\\grave.png");
        grid.matrix[posy][posx].button.setIcon(grave);
        System.out.println("me mori xC soy defensa: "+ nombre);
-       this.thread.isrunning = false;
+       setLife(0);
        grid.matrix[posy][posx].personaje = null;
        
     }

@@ -23,9 +23,9 @@ public class SelectedDefense {
     private Entity grid;
     
     //crea un label con la imagen de la defensa y lo coloca en el scroll panel para el usuario poder seleccionarla
-    SelectedDefense(Entity entiy, Grid grid){
-        String txt = "<html>Nombre: " + entiy.nombre + "<br>Campos: " + entiy.campos + "<br>Vida: " + entiy.vida + "<br>Golpes/ps: " + entiy.cantidadGolpes + "</html>";
-        labelDefense = new JLabel(entiy.moving);
+    SelectedDefense(Entity entity, Grid grid){
+        String txt = "<html>Nombre: " + entity.nombre + "<br>Campos: " + entity.campos + "<br>Vida: " + entity.vida + "<br>Golpes/ps: " + entity.cantidadGolpes + "</html>";
+        labelDefense = new JLabel(entity.moving);
         labelDefense.setText(txt);
         labelDefense.setHorizontalTextPosition(JLabel.CENTER);
         labelDefense.setVerticalTextPosition(JLabel.BOTTOM);
@@ -33,16 +33,19 @@ public class SelectedDefense {
         labelDefense.setBorder(border);
         labelDefense.setBackground(Color.white);
         labelDefense.setSize(275, 120);
+        this.defense = entity;
         labelDefense.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                     //carga en el tablero una entidad seleccionada al hacerle click
-                    grid.setEntityLoaded(entiy);
+//                    if(entity.nombre.contains("Arbol de la vida") && grid.getTreeOfLife()!=null)
+//                        return;
+                    grid.setEntityLoaded(entity);
                     System.out.println("loaded:" + grid.getEntityLoaded().nombre);
                 }
 
         });
-        this.defense = entiy;
+        
     }
 
     public void setLabelDefense(JLabel labelDefense) {

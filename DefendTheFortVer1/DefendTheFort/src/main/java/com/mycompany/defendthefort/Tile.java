@@ -40,7 +40,7 @@ public class Tile {
                                 }catch(ClassCastException ex){
                                     System.out.println("");
                                 }
-                                grid.getThreadArray().add(personaje.thread);
+                                grid.getThreadArray().add(new ThreadEntity(personaje, grid));
                                 grid.getDefenses().add(personaje);
                                 grid.setDefenseCapacity(grid.getDefenseCapacity()-personaje.campos);
                                 button.setIcon(personaje.moving);
@@ -62,5 +62,13 @@ public class Tile {
      
      public Entity buttonActionPerformed(java.awt.event.ActionEvent evt) {
         return personaje;        
+    }
+
+    public int getPosx() {
+        return posx;
+    }
+
+    public int getPosy() {
+        return posy;
     }
 }

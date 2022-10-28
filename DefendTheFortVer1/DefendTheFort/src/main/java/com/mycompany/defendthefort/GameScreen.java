@@ -16,6 +16,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import static javax.swing.GroupLayout.Alignment.CENTER;
@@ -39,9 +40,9 @@ public class GameScreen extends javax.swing.JFrame {
     int level = 0;
     private ArrayList<Grid> levelGrid = new ArrayList<Grid>(); //array de los tableros para cada partida;
     private  ArrayList<Entity> defenses = new ArrayList<Entity>(); //array de las posibles defensas para cada partidoa;
-    private  ArrayList<Entity> zombies = new ArrayList<Entity>(); //array de los posibles zombies para cada partidoa;
-    private  ArrayList<Entity> flyingEntities = new ArrayList<Entity>(); //array de las posibles entidades voladoras para cada partidoa;
+    private  ArrayList<Entity> zombies = new ArrayList<Entity>(); //array de los posibles zombies para cada partida
     final int ancho = 35, alto = 35;
+    private ThreadGame gameThread;
     
     
     
@@ -72,6 +73,8 @@ public class GameScreen extends javax.swing.JFrame {
      
     }
 
+   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,9 +97,10 @@ public class GameScreen extends javax.swing.JFrame {
         btnPause = new javax.swing.JButton();
         btnOpciones = new javax.swing.JButton();
         lblGameGrid = new javax.swing.JLabel();
+        pnlYouLost = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1200, 1200));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1000, 1200));
 
         pnlContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -189,6 +193,19 @@ public class GameScreen extends javax.swing.JFrame {
 
         tpnlContent.addTab("tab2", pnlGame);
 
+        javax.swing.GroupLayout pnlYouLostLayout = new javax.swing.GroupLayout(pnlYouLost);
+        pnlYouLost.setLayout(pnlYouLostLayout);
+        pnlYouLostLayout.setHorizontalGroup(
+            pnlYouLostLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1200, Short.MAX_VALUE)
+        );
+        pnlYouLostLayout.setVerticalGroup(
+            pnlYouLostLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1679, Short.MAX_VALUE)
+        );
+
+        tpnlContent.addTab("tab3", pnlYouLost);
+
         pnlContent.add(tpnlContent, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1200, 1710));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,9 +226,13 @@ public class GameScreen extends javax.swing.JFrame {
     private void btnStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStartActionPerformed
         // TODO add your handling code here:
         Grid currentLevel = levelGrid.get(level);
-        currentLevel.generarZombies(zombies);  //genera los zombies al azar y los coloca en el tablero de modo random
-        currentLevel.SimulacionCochina(); //empieza los threads para todas las entidades
-
+        System.out.println(level);
+        if(currentLevel.getTreeOfLife()!=null){
+            currentLevel.generarZombies(zombies);  //genera los zombies al azar y los coloca en el tablero de modo random
+            gameThread = new ThreadGame(this);
+            gameThread.start();
+            currentLevel.SimulacionCochina(); //empieza los threads para todas las entidades
+        }
     }//GEN-LAST:event_btnStartActionPerformed
 
     
@@ -250,28 +271,28 @@ public class GameScreen extends javax.swing.JFrame {
         Grid currentGrid = levelGrid.get(level);
         ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ZombieNormal.png");
         ImageIcon moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ZombieNormal.png");
-        Entity zombieContactoBasico = new ZombieContacto("Zombie Basico",100,5,1,5,1, currentGrid, moving, attacking);
+        Entity zombieContactoBasico = new ZombieContacto("Zombie Basico",45,5,1,1,1, currentGrid, moving, attacking);
         zombies.add(zombieContactoBasico);
         
         attacking = new ImageIcon("C:\\Images\\BloodZombie.gif");
         moving = new ImageIcon("C:\\Images\\BloodZombie.gif");
-        Entity ZombieSangriento= new ZombieContacto("Zombie Sangriento",100,10,1,5,1, currentGrid, moving, attacking);
+        Entity ZombieSangriento= new ZombieContacto("Zombie Sangriento",35,12,1,3,2, currentGrid, moving, attacking);
         zombies.add(ZombieSangriento);
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ExplodingZombie.png");
         attacking = new ImageIcon( "C:\\Images\\explosion.gif");
-        Entity ZombieExplosivo = new ZombieChoque("Zombie Explosivo",150,15,1,5,1, currentGrid, moving, attacking);
+        Entity ZombieExplosivo = new ZombieChoque("Zombie Explosivo",25,150,1,3,4, currentGrid, moving, attacking);
         zombies.add(ZombieExplosivo);
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
-        Entity OjoDelDiablo = new ZombieMedio("OjoDelDiablo",100,15,1,2,1, currentGrid, moving, attacking);
+        Entity OjoDelDiablo = new ZombieMedio("OjoDelDiablo",40,15,5,2,1, currentGrid, moving, attacking);
         zombies.add(OjoDelDiablo);
         
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PistolZombie.png");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PistolZombieAttacking.png");
-        Entity ZombiePistolero = new ZombieMedio("Zombie Pistolero",100,10,1,4,1, currentGrid, moving, attacking);
+        Entity ZombiePistolero = new ZombieMedio("Zombie Pistolero",50,20,1,4,7, currentGrid, moving, attacking);
         zombies.add(ZombiePistolero);
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\BalloonZombieHD.png");
@@ -281,64 +302,70 @@ public class GameScreen extends javax.swing.JFrame {
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\ImpRocket.png");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\explosion2.png");
-        Entity ImpRocket = new ZombieContacto("Imp con Coete",90,25,1,3,1, currentGrid, moving, attacking);
+        Entity ImpRocket = new ZombieChoque("Imp con Coete",40,50,1,3,6, currentGrid, moving, attacking);
         zombies.add(ImpRocket);         
     }
     
     public void initializaPossibleDefenses(){
         Grid currentGrid = levelGrid.get(level);
-        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
-        ImageIcon moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
-        Entity BonkChoy = new DefensaContacto("Bonk Choy",100,5,1,0,1, currentGrid, moving, attacking);
+        
+        
+        ImageIcon attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\TreeOfLife.png");
+        ImageIcon moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\TreeOfLife.png");
+        Entity  TreeOfLife = new DefensaBloque("Arbol de la vida",100,1,0,1, currentGrid, moving, attacking);
+        defenses.add(TreeOfLife);
+        
+        
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\PunchingPlantResting.png");
+        Entity BonkChoy = new DefensaContacto("Bonk Choy",40,5,1,0,1, currentGrid, moving, attacking);
         defenses.add(BonkChoy);
         
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\gloomshroomattacking.png");
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\gloomshroom.png");
-        Entity gloomshroom= new DefensaMultiple("gloomshroom",100,10,1,5,1, currentGrid, moving, attacking);
+        Entity gloomshroom= new DefensaMultiple("gloomshroom",4,10,1,0,1, currentGrid, moving, attacking);
         defenses.add(gloomshroom);
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\peashooter.png");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\peashooter.png");
-        Entity peashooter = new DefensaMultiple("peashooter",150,15,1,5,1, currentGrid, moving, attacking);
+        Entity peashooter = new DefensaMultiple("peashooter",40,15,1,0,1, currentGrid, moving, attacking);
         defenses.add(peashooter);
         
-//        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
-//        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\eyeball_attack-w.gif");
-//        Entity squash = new DefensaChoque("Squash",100,15,1,2,1, currentGrid, moving, attacking);
-//        defenses.add(OjoDelDiablo);
-        
+        moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\apisonaflormoving.png");
+        attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\apisonaflormoving.png");
+        Entity squash = new DefensaImpacto("Squash",15,70,3,0,1, currentGrid, moving, attacking);
+        defenses.add(squash);      
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\Chomper.png");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\chopperEating.png");
-        Entity Chopper = new DefensaContacto("Chopper",100,10,1,4,1, currentGrid, moving, attacking);
+        Entity Chopper = new DefensaContacto("Chopper",55,10,1,0,2, currentGrid, moving, attacking);
         defenses.add(Chopper);
         
         moving =new ImageIcon("C:\\Images\\lol.gif");
         attacking = new ImageIcon("C:\\Images\\lol.gif");
-        Entity starfruit = new DefensaMultiple("Zombie con globo",30,20,1,3,1, currentGrid, moving, attacking);
+        Entity starfruit = new DefensaMultiple("starfruit",40,15,5,0,1, currentGrid, moving, attacking);
         defenses.add(starfruit);
         
         moving = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\block.png");
         attacking = ImageManager.resize(currentGrid.getMatrix()[0][0].button, "C:\\Images\\block.png");
-        Entity Bloque = new DefensaBloque("Imp con Coete",90,1,3,1, currentGrid, moving, attacking);
+        Entity Bloque = new DefensaBloque("Bloque",100,1,0,1, currentGrid, moving, attacking);
         defenses.add(Bloque);         
     
     }
-    
     
     public void addPosibleDefensesScreen(){  //recorre el array de posibles defensas, crea una interfaz bonita para ponerla en pantalla
         Grid currentLevel = levelGrid.get(level);
         for(int i = 0; i<defenses.size();i++){
            Entity EntityDefense = defenses.get(i);
            SelectedDefense defense = new SelectedDefense(EntityDefense, currentLevel); //clase con label y referencia a 
-           JLabel lbldefense = defense.getLabelDefense();                                        //una entidad
-           pnlDefenses.add(lbldefense);
-           int posy = i*lbldefense.getHeight();
-           lbldefense.setLocation(0, posy);
+           JLabel lbldefense = defense.getLabelDefense();
+//           if(EntityDefense.nivelAparicion == level){
+               pnlDefenses.add(lbldefense);
+               int posy = i*lbldefense.getHeight();
+               lbldefense.setLocation(0, posy);
+//           }
         }      
     }
-    
-    
     
     public void placeButtons(Tile[][] matrix){  //coloca en la pantalla los botones de una partida,
         for (int i = 0; i < 25; i++) {
@@ -347,6 +374,49 @@ public class GameScreen extends javax.swing.JFrame {
                 matrix[i][j].button.setOpaque(rootPaneCheckingEnabled);
                 matrix[i][j].button.setLocation(i*ancho, alto*j);
             }
+        }
+    }
+    
+    
+    
+    public void levelUpEntities(){
+        Random r = new Random();
+        int percent1;
+        int percent2;
+        int extraLife;
+        int extraDamage;
+        for (Entity zombie : zombies) {
+
+            percent1 = r.nextInt(5, 20);
+            percent2 = r.nextInt(5, 20);
+
+            extraLife = (zombie.vida * percent1) / 100;
+            zombie.vida+=extraLife;
+            extraDamage = (zombie.cantidadGolpes * percent2) / 100;
+            zombie.cantidadGolpes+=extraDamage;
+
+        }
+
+        for (Entity defensa : defenses) {
+
+            percent1 = r.nextInt(5, 20);
+            percent2 = r.nextInt(5, 20);
+
+            extraLife = (defensa.vida * percent1) / 100;
+            defensa.vida+=extraLife;
+            extraDamage = (defensa.cantidadGolpes * percent2) / 100;
+            defensa.cantidadGolpes+=extraDamage;
+
+        }
+        actualizeEntitiesGrid();
+    }
+    
+    public void actualizeEntitiesGrid(){
+        for(Entity entity: defenses){
+            entity.grid = getCurrentLevel();
+        }
+        for(Entity entity: zombies){
+            entity.grid = getCurrentLevel();
         }
     }
     
@@ -374,9 +444,6 @@ public class GameScreen extends javax.swing.JFrame {
         return zombies;
     }
 
-    public ArrayList<Entity> getFlyingEntities() {
-        return flyingEntities;
-    }
 
     public int getAncho() {
         return ancho;
@@ -385,8 +452,6 @@ public class GameScreen extends javax.swing.JFrame {
     public int getAlto() {
         return alto;
     }
-
- 
 
     public JButton getBtnOpciones() {
         return btnOpciones;
@@ -430,6 +495,17 @@ public class GameScreen extends javax.swing.JFrame {
         return tpnlContent;
     }
     
+       public void setLevel(int level) {
+        this.level = level;
+    }
+    
+     public void setGameThread(ThreadGame gameThread) {
+        this.gameThread = gameThread;
+    }
+
+    public ThreadGame getGameThread() {
+        return gameThread;
+    }
     
     
     /**
@@ -479,6 +555,7 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JPanel pnlDefenses;
     private javax.swing.JPanel pnlGame;
     private javax.swing.JPanel pnlInitialScreen;
+    private javax.swing.JPanel pnlYouLost;
     private javax.swing.JScrollPane scrollDefenses;
     private javax.swing.JTabbedPane tpnlContent;
     // End of variables declaration//GEN-END:variables

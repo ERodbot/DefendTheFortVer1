@@ -94,7 +94,7 @@ public class ComponentsManager {
                     if ("ZombieAereo".equals(tipo)){
                         ZombieAereo aerial = new ZombieAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path));
                         GS.getZombies().add(aerial);
-                        GS.getFlyingEntities().add(aerial);        
+     
                     }
                     if ("ZombieChoque".equals(tipo))
                         GS.getZombies().add(new ZombieChoque(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
@@ -129,11 +129,11 @@ public class ComponentsManager {
                     if ("DefensaContacto".equals(tipo))
                         GS.getDefenses().add(new DefensaContacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
                     if ("DefensaChoque".equals(tipo))
-                        GS.getDefenses().add(new DefensaChoque(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaImpacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
                     if ("DefensaAereo".equals(tipo)){
                         DefensaAereo aerial = new DefensaAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path));
                         GS.getZombies().add(aerial);
-                        GS.getFlyingEntities().add(aerial);
+ 
                     }        
                     if ("DefensaMultiple".equals(tipo))
                         GS.getDefenses().add(new DefensaMultiple(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
