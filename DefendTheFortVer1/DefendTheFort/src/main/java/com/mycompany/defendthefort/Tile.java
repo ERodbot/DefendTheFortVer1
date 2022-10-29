@@ -31,29 +31,43 @@ public class Tile {
             @Override
             //si se encuentra en una posicon posible de colocar, y quedan espacios, coloca la entidad en la posicion clickeada
             public void mouseClicked(MouseEvent e) {   
-                    if(!(posx == 0 || posx == 24 || posy == 0 || posy == 24) && grid.getEntityLoaded()!=null){
-                            if((grid.getDefenseCapacity() - grid.getEntityLoaded().campos) > 0){
-                                personaje = grid.getEntityLoaded().clone();
-                                try{
-                                    DefensaAereo aereo = (DefensaAereo)personaje;
-                                    grid.getFlyingEntities().add(personaje);
-                                }catch(ClassCastException ex){
-                                    System.out.println("");
-                                }
-                                grid.getThreadArray().add(new ThreadEntity(personaje, grid));
-                                grid.getDefenses().add(personaje);
-                                grid.setDefenseCapacity(grid.getDefenseCapacity()-personaje.campos);
-                                button.setIcon(personaje.moving);
-                                grid.setEntityLoaded(null);
-                                personaje.setLocation(posy,posx);
-                        }
-                    }
+                if(personaje == null)
+                    putInGrid();
+                else{
+                    grid.getConsult().setText(personaje.getRegister().toString());
+                    
                 }
+            }
+                    
         });
         this.grid = grid;
     }
-   
     
+   
+    public void putInGrid(){
+        if(!(posx == 0 || posx == 24 || posy == 0 || posy == 24) && grid.getEntityLoaded()!=null){
+            if((grid.getDefenseCapacity() - grid.getEntityLoaded().campos) > 0){
+                 personaje = grid.getEntityLoaded().clone();
+                try{
+                    DefensaAereo aereo = (DefensaAereo)personaje;
+                    grid.getFlyingEntities().add(personaje);
+                    }catch(ClassCastException ex){
+                       System.out.println("");
+                    }
+                    grid.getThreadArray().add(new ThreadEntity(personaje, grid));
+                    grid.getDefenses().add(personaje);
+                    grid.setDefenseCapacity(grid.getDefenseCapacity()-personaje.campos);
+                    button.setIcon(personaje.moving);
+                    grid.setEntityLoaded(null);
+                    personaje.setLocation(posy,posx);
+            }
+        }
+    }
+    
+    
+                
+                
+                
      public void setLocation(int y, int x){
         this.posx = x;
         this.posy = y;

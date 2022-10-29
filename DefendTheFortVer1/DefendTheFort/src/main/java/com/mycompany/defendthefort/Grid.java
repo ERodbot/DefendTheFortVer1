@@ -6,6 +6,8 @@ import javax.swing.JButton;
 import java.util.Random;
 import com.mycompany.defendthefort.Entity;
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class Grid{
 
@@ -19,10 +21,11 @@ public class Grid{
     private  ArrayList<Entity> flyingEntities;
     private ArrayList<ThreadEntity> threadArray = new ArrayList();
     private Entity entityLoaded;
+    private JTextField consult;
 
 
-     public Grid(int level){
-        
+     public Grid(int level, JTextField consulta){
+        this.consult = consulta;
         generateComponents();
         this.nivel = level+1;
     }
@@ -226,6 +229,15 @@ public class Grid{
     public void setDefenseCapacity(int defenseCapacity) {
         this.defenseCapacity = defenseCapacity;
     }
+
+    public JTextField getConsult() {
+        return consult;
+    }
+
+    public void setConsult(JTextField consult) {
+        this.consult = consult;
+    }
+    
 
    
 

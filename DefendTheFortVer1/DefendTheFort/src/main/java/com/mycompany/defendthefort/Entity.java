@@ -12,7 +12,7 @@ public abstract class Entity {
     private  ArrayList<Entity> zombies = new ArrayList();  //un array de los zombies en el tablero
     private  ArrayList<Entity> defenses = new ArrayList(); //un array de las defensas en el tablero
     private  ArrayList<Entity> flyingEntities = new ArrayList(); //un array de las entidades voladoras en el tablero
-    private Registro register = new Registro(this); //una clase registro para guardar los ataques recbidos/propiciados;
+    private Register register = new Register(this); //una clase registro para guardar los ataques recbidos/propiciados;
     ImageIcon moving; //imagen de la entidad en movimiento
     ImageIcon attacking; //imagen de la entidad atacando
             
@@ -177,7 +177,7 @@ public abstract class Entity {
         this.zombies = zombies;
     }
 
-    public void setRegister(Registro register) {
+    public void setRegister(Register register) {
         this.register = register;
     }
 
@@ -201,7 +201,7 @@ public abstract class Entity {
         return flyingEntities;
     }
     
-    public Registro getRegister(){
+    public Register getRegister(){
         return register;
     }
     

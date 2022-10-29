@@ -60,7 +60,7 @@ public class GameScreen extends javax.swing.JFrame {
         pnlContent.setCursor (c);
         CM = new ComponentsManager(this);
         for(int i = 0; i<10; i++){
-            levelGrid.add(new Grid(i+1));
+            levelGrid.add(new Grid(i+1, txfConsulta));
             System.out.println(i+1);
         }
         CM.readToAdd();  
@@ -94,9 +94,12 @@ public class GameScreen extends javax.swing.JFrame {
         scrollDefenses = new javax.swing.JScrollPane();
         pnlDefenses = new javax.swing.JPanel();
         btnStart = new javax.swing.JButton();
-        btnPause = new javax.swing.JButton();
         btnOpciones = new javax.swing.JButton();
         lblGameGrid = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        pnlConsulta = new javax.swing.JPanel();
+        lbltitleConsulta = new javax.swing.JLabel();
+        txfConsulta = new javax.swing.JTextField();
         pnlYouLost = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -154,11 +157,44 @@ public class GameScreen extends javax.swing.JFrame {
             }
         });
 
-        btnPause.setText("PAUSAR");
-
         btnOpciones.setText("OPCIONES");
 
         lblGameGrid.setText("jLabel1");
+
+        lbltitleConsulta.setText("Consultar Entidad");
+
+        txfConsulta.setEditable(false);
+        txfConsulta.setText("jTextField1");
+        txfConsulta.setPreferredSize(new java.awt.Dimension(71, 1000));
+        txfConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txfConsultaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnlConsultaLayout = new javax.swing.GroupLayout(pnlConsulta);
+        pnlConsulta.setLayout(pnlConsultaLayout);
+        pnlConsultaLayout.setHorizontalGroup(
+            pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addGap(89, 89, 89)
+                .addComponent(lbltitleConsulta)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addComponent(txfConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 65, Short.MAX_VALUE))
+        );
+        pnlConsultaLayout.setVerticalGroup(
+            pnlConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlConsultaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbltitleConsulta)
+                .addGap(18, 18, 18)
+                .addComponent(txfConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+
+        jScrollPane1.setViewportView(pnlConsulta);
 
         javax.swing.GroupLayout pnlGameLayout = new javax.swing.GroupLayout(pnlGame);
         pnlGame.setLayout(pnlGameLayout);
@@ -169,25 +205,28 @@ public class GameScreen extends javax.swing.JFrame {
                 .addComponent(lblGameGrid)
                 .addGap(651, 651, 651))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlGameLayout.createSequentialGroup()
-                .addGap(99, 99, 99)
+                .addGap(156, 156, 156)
                 .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPause, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(scrollDefenses, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE))
+                    .addGroup(pnlGameLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE))
+                    .addGroup(pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnOpciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(scrollDefenses, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)))
                 .addGap(117, 117, 117))
         );
         pnlGameLayout.setVerticalGroup(
             pnlGameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlGameLayout.createSequentialGroup()
-                .addComponent(scrollDefenses, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addComponent(scrollDefenses, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnStart, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnPause, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnOpciones, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(343, 343, 343)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(324, 324, 324)
                 .addComponent(lblGameGrid))
         );
 
@@ -234,6 +273,10 @@ public class GameScreen extends javax.swing.JFrame {
             currentLevel.SimulacionCochina(); //empieza los threads para todas las entidades
         }
     }//GEN-LAST:event_btnStartActionPerformed
+
+    private void txfConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfConsultaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txfConsultaActionPerformed
 
     
     
@@ -457,9 +500,7 @@ public class GameScreen extends javax.swing.JFrame {
         return btnOpciones;
     }
 
-    public JButton getBtnPause() {
-        return btnPause;
-    }
+
 
     public JButton getBtnStart() {
         return btnStart;
@@ -545,12 +586,14 @@ public class GameScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOpciones;
-    private javax.swing.JButton btnPause;
     private javax.swing.JButton btnStart;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblGameGrid;
     private javax.swing.JLabel lblInitializeGame;
+    private javax.swing.JLabel lbltitleConsulta;
+    private javax.swing.JPanel pnlConsulta;
     private javax.swing.JPanel pnlContent;
     private javax.swing.JPanel pnlDefenses;
     private javax.swing.JPanel pnlGame;
@@ -558,5 +601,6 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JPanel pnlYouLost;
     private javax.swing.JScrollPane scrollDefenses;
     private javax.swing.JTabbedPane tpnlContent;
+    private javax.swing.JTextField txfConsulta;
     // End of variables declaration//GEN-END:variables
 }
