@@ -13,6 +13,7 @@ public class User implements Serializable{
     
     
     public User(String ID, String password){
+        menu = new Menu(this);
         this.ID = ID;
         this.password = password; 
          
@@ -52,6 +53,14 @@ public class User implements Serializable{
 
     public void setGames(ArrayList<GameScreen> games) {
         this.games = games;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     

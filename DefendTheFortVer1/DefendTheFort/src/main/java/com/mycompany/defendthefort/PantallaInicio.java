@@ -157,13 +157,11 @@ public class PantallaInicio extends javax.swing.JFrame {
             if(!txfID.getText().trim().equals("") && !txfID.getText().trim().equals("") && !txfPsw.getText().trim().equals("")){
                 login.usuarios.darDeAlta(txfID.getText(),txfID.getText(), txfPsw.getText());     
                 User usuario = login.usuarios.obtenerUsuario(txfID.getText());
-                GameScreen game = new GameScreen();
-                usuario.getGames().add(game);
-                game.setResizable(false);
-                game.setLocationRelativeTo(null);
-                game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                game.setVisible(rootPaneCheckingEnabled);
-                game.setVisible(true);
+                usuario.getMenu().setVisible(true);
+                usuario.getMenu().setResizable(false);
+                usuario.getMenu().setLocationRelativeTo(null);
+                usuario.getMenu().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                usuario.getMenu().setVisible(true);
             }
         }
     
