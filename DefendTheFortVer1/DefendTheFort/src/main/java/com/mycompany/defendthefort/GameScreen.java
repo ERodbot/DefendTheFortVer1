@@ -36,6 +36,8 @@ import javax.swing.border.Border;
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    private String name;
+    
     public ComponentsManager CM;   //sistema de manejo de la creacion de los personajes;
     int level = 0;
     private ArrayList<Grid> levelGrid = new ArrayList<Grid>(); //array de los tableros para cada partida;
@@ -50,6 +52,31 @@ public class GameScreen extends javax.swing.JFrame {
      * Creates new form GameScreen
      */
     public GameScreen() {
+        initComponents();
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        jLabel2.setIcon(new ImageIcon("C:\\Images\\ZombieApocalypseTitleScreen.png"));
+        Image image = toolkit.getImage("C:\\Images\\ZombieHandPng.png");
+        addMauseListenerTonitializelbl();
+        Cursor c = toolkit.createCustomCursor(image , new Point(pnlContent.getX(), 
+        pnlContent.getY()), "img");
+        pnlContent.setCursor (c);
+        CM = new ComponentsManager(this);
+        for(int i = 0; i<10; i++){
+            levelGrid.add(new Grid(i+1));
+            System.out.println(i+1);
+        }
+        CM.readToAdd();  
+        initializaPossibleZombies();
+        initializaPossibleDefenses();
+        Dimension preferredSize = new Dimension(293, 720+(120*defenses.size()-720)); //ajustar el tamaño de la interfaz de
+                                                                         //seleccion de defensas
+        pnlDefenses.setPreferredSize(preferredSize);                
+        
+     
+    }
+    
+    public GameScreen(String name) {
+        this.name = name;
         initComponents();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         jLabel2.setIcon(new ImageIcon("C:\\Images\\ZombieApocalypseTitleScreen.png"));
@@ -505,6 +532,14 @@ public class GameScreen extends javax.swing.JFrame {
 
     public ThreadGame getGameThread() {
         return gameThread;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     

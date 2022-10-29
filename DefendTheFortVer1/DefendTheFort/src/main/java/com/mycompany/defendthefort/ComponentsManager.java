@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import org.json.simple.JSONArray; 
 import org.json.simple.JSONObject; 
 import org.json.simple.parser.JSONParser; 
@@ -87,17 +88,18 @@ public class ComponentsManager {
                     int golpes    = Math.toIntExact((long)enemigoAux.get("golpes"));
                     int nivel     = Math.toIntExact((long)enemigoAux.get("nivel"));
                     int espacios  = Math.toIntExact((long)enemigoAux.get("espacios"));
+                    ImageIcon image = ImageManager.resize(GS.getCurrentLevel().matrix[12][12].button, path);
                     if ("ZombieContacto".equals(tipo))
-                        GS.getZombies().add(new ZombieContacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getZombies().add(new ZombieContacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("ZombieMedio".equals(tipo))
-                        GS.getZombies().add(new ZombieMedio(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getZombies().add(new ZombieMedio(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("ZombieAereo".equals(tipo)){
-                        ZombieAereo aerial = new ZombieAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path));
+                        ZombieAereo aerial = new ZombieAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,new ImageIcon(path));
                         GS.getZombies().add(aerial);
      
                     }
                     if ("ZombieChoque".equals(tipo))
-                        GS.getZombies().add(new ZombieChoque(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getZombies().add(new ZombieChoque(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     
                 }
                 
@@ -126,21 +128,22 @@ public class ComponentsManager {
                     int golpes    = Math.toIntExact( (long)defensaAux.get("golpes"));
                     int nivel     = Math.toIntExact( (long)defensaAux.get("nivel"));
                     int espacios  = Math.toIntExact( (long)defensaAux.get("espacios"));
+                    ImageIcon image = ImageManager.resize(GS.getCurrentLevel().matrix[12][12].button, path);
                     if ("DefensaContacto".equals(tipo))
-                        GS.getDefenses().add(new DefensaContacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaContacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("DefensaChoque".equals(tipo))
-                        GS.getDefenses().add(new DefensaImpacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaImpacto(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("DefensaAereo".equals(tipo)){
-                        DefensaAereo aerial = new DefensaAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path));
+                        DefensaAereo aerial = new DefensaAereo(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image);
                         GS.getZombies().add(aerial);
  
                     }        
                     if ("DefensaMultiple".equals(tipo))
-                        GS.getDefenses().add(new DefensaMultiple(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaMultiple(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("DefensaBloque".equals(tipo))
-                        GS.getDefenses().add(new DefensaBloque(nombre,vida,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaBloque(nombre,vida,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     if ("DefensaMedio".equals(tipo))
-                        GS.getDefenses().add(new DefensaMedio(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),new ImageIcon(path),new ImageIcon(path)));
+                        GS.getDefenses().add(new DefensaMedio(nombre,vida,golpes,nivel,espacios,nivel,GS.getCurrentLevel(),image,image));
                     
                     System.out.println("Zombies, defensas y entidades aéreas en los archivos JSON agregadas exitosamente");
                     

@@ -1,10 +1,13 @@
 package com.mycompany.defendthefort;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable{
     private String ID;
     private String password;
+    private ArrayList<GameScreen> games = new ArrayList();
+    private Menu menu;
     
  
     
@@ -43,4 +46,14 @@ public class User implements Serializable{
         return password;
     }
 
+    public ArrayList<GameScreen> getGames() {
+        return games;
+    }
+
+    public void setGames(ArrayList<GameScreen> games) {
+        this.games = games;
+    }
+
+    
+    
 }
