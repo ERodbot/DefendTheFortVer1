@@ -30,6 +30,9 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
         //**********************************
         
         lblInfo.setText("    Menú de " + user.getID() +"  ---  Seleccione la opción");
+        if (user.getID() != "admin"){
+            btnComponents.setEnabled(false);
+        }
         showGames();
         
     }
@@ -51,6 +54,7 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
         btnNewGame = new javax.swing.JButton();
         btnIngresar = new javax.swing.JButton();
         txfGameName = new javax.swing.JTextField();
+        btnComponents = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +100,13 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
             }
         });
 
+        btnComponents.setText("Editar componentes");
+        btnComponents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnComponentsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -110,7 +121,8 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnNewGame, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnComponents))
                         .addGap(47, 47, 47)
                         .addComponent(scrollPnlPartidas, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -129,7 +141,9 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
                         .addComponent(scrollPnlPartidas, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnComponents)
+                        .addGap(27, 27, 27)
                         .addComponent(lblGameName, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txfGameName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -207,6 +221,11 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
         }
     }//GEN-LAST:event_btnNewGameActionPerformed
 
+    private void btnComponentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComponentsActionPerformed
+        ComManGUI CM = new ComManGUI();
+        CM.setVisible(true);
+    }//GEN-LAST:event_btnComponentsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -269,6 +288,7 @@ public class Menu extends javax.swing.JFrame implements MouseListener{
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnComponents;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnNewGame;
     private javax.swing.JPanel jPanel1;

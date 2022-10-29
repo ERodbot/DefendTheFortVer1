@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Project/Maven2/JavaApp/src/main/java/${packagePath}/${mainClassName}.java to edit this template
- */
-
 package com.mycompany.defendthefort;
 
 import java.io.File;
@@ -26,9 +21,7 @@ public class DefendTheFort {
         bd.restaurar();
     //        
 
-            PantallaInicio pi = new PantallaInicio();
-            pi.setVisible(true);
-////        
-        Grid grid =     new Grid(0);
+        PantallaInicio pi = new PantallaInicio();
+        pi.setVisible(true);
     }
 }
